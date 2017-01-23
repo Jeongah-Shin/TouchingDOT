@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/englidot_logo"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:baselineAligned="true"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:text="ENGLIDOT"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:textSize="25sp"
+            android:gravity="center_vertical" />
+
+        <ImageView
+            android:src="@drawable/dot_point_logo"
+            android:layout_width="35dp"
+            android:layout_height="80dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
