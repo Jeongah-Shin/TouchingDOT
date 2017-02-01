@@ -24,7 +24,7 @@ local.properties
 proguard/
 
 # Log Files
-*.log
+.log
 
 # Android Studio Navigation editor temp files
 .navigation/
@@ -33,14 +33,14 @@ proguard/
 captures/
 
 # Intellij
-*.iml
+.iml
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
 .idea/libraries
 
 # Keystore files
-*.jks
+.jks
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
