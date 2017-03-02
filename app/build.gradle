@@ -1,11 +1,10 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.dotincorpkr.englidot"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -17,15 +16,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout/begin'] } }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res/layout/begin']
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
     //카카오톡 로그인 sdk를 사용하기 위해 필요하다.
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     // 카카오링크 sdk를 사용하기 위해 필요하다
@@ -36,5 +48,14 @@ dependencies {
     compile group: 'com.kakao.sdk', name: 'kakaotalk', version: project.KAKAO_SDK_VERSION
     // push sdk를 사용하기 위해 필요하다.
     compile group: 'com.kakao.sdk', name: 'push', version: project.KAKAO_SDK_VERSION
-    testCompile 'junit:junit:4.12'
+    compile 'com.google.firebase:firebase-appindexing:10.0.1'
+    // Butter Knife
+    compile 'com.jakewharton:butterknife:7.0.1'
+    // GSON
+    compile 'com.google.code.gson:gson:2.7'
+    // OKHttp
+    compile 'com.squareup.okhttp3:okhttp:+'
+    // AQurey
+    compile 'com.googlecode.android-query:android-query:+'
+    compile 'com.tsengvn:Typekit:1.0.0'
 }

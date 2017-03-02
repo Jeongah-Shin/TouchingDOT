@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+        <Button
+            android:id="@+id/cheating1"
+            android:background="@color/colorAccent"
+            android:text="치트키1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/cheating2"
+            android:background="@color/colorAccent"
+            android:text="치트키2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/cheating3"
+            android:background="@color/colorAccent"
+            android:text="치트키3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="300sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <ImageButton
+            android:contentDescription="go to previous letter"
+            android:id="@+id/previous"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/previous"
+            android:background="#00ff0000"/>
+
+        <ImageButton
+            android:contentDescription="go to next letter"
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/next"
+            android:background="#00ff0000"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/write"
+        android:background="@drawable/my_button_bg"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="받아쓰기"
+        android:textSize="12sp"
+        android:textColor="#ffffff"/>
+
+</LinearLayout>

@@ -13,47 +13,30 @@
         android:gravity="center_horizontal"
         android:baselineAligned="true"
         android:layout_marginTop="50dp">
-        <TextView
-            android:text="ENGLIDOT"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:textSize="25sp"
-            android:gravity="center_vertical" />
-
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="80dp"
-            android:src="@drawable/dot_point_logo" />
+            android:src="@drawable/englidot"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
         <TextView
-            android:text="맛있는 군고구마"
-            android:textSize="30sp"
-            android:id="@+id/nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp" />
-        <TextView
-            android:text="님,\n안녕하세요."
-            android:textSize="30sp"
-            android:id="@+id/greeting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp" />
+            android:text="Greeting MSG"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/nickname_greeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button
         android:text="어플리케이션 시작하기"
+        android:textColor="#ffffff"
         android:id="@+id/start"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_height="100dp"
         android:layout_width="match_parent"
         android:contentDescription="어플리케이션 시작하기.어플리케이션을 시작하는 버튼입니다."/>

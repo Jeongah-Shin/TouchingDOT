@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="시행 회차"
+        android:textColor="@color/colorPrimary"
+        android:textSize="21sp"
+        android:gravity="left"
+        android:id="@+id/order" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="21sp"
+            android:gravity="left"
+            android:text="틀린 알파벳"
+            android:id="@+id/wrongAnswer" />
+
+    </LinearLayout>

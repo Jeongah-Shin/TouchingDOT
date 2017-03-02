@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:id="@+id/checkbox1"
+                android:layout_width="150dp"
+                android:layout_height="450dp"
+                android:orientation="vertical">
+                    <CheckBox
+                        android:contentDescription="1점"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:button="@drawable/braille_checked"
+                        android:id="@+id/br1" />
+
+                    <CheckBox
+                        android:contentDescription="2점"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:button="@drawable/braille_checked"
+                        android:id="@+id/br2"
+                        android:layout_below="@+id/br1" />
+
+                    <CheckBox
+                        android:contentDescription="3점"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:button="@drawable/braille_checked"
+                        android:id="@+id/br3"
+                        android:layout_below="@+id/br2" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/checkbox2"
+                android:layout_width="150dp"
+                android:layout_height="450dp"
+                android:layout_toRightOf="@+id/checkbox1"
+                android:orientation="vertical">
+
+                    <CheckBox
+                        android:contentDescription="4점"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:button="@drawable/braille_checked"
+                        android:id="@+id/br4" />
+
+                <CheckBox
+                    android:contentDescription="5점"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:button="@drawable/braille_checked"
+                    android:id="@+id/br5" />
+
+                <CheckBox
+                        android:contentDescription="6점"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:button="@drawable/braille_checked"
+                        android:id="@+id/br6" />
+            </LinearLayout>
+    </LinearLayout>
+        <Button
+            android:text="Submit"
+            android:textColor="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/my_button_bg"
+            android:id="@+id/br_submit" />
+</LinearLayout>

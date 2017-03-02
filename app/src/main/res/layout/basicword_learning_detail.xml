@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/word"
+        android:text="word"
+        android:textAlignment="center"
+        android:textSize="80sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <Button
+        android:id="@+id/wordclass"
+        android:text="품사"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/mean"
+        android:text="뜻"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

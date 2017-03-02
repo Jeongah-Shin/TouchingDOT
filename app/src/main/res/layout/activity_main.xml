@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+            <Button
+                android:text="@string/L1"
+                android:textColor="#ffffff"
+                android:background="@color/colorPrimary"
+                android:layout_margin="5dp"
+                android:id="@+id/Alphabet"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:text="@string/L2"
+                android:textColor="@color/colorPrimary"
+                android:background="#ffffff"
+                android:layout_margin="5dp"
+                android:id="@+id/Basic_voca"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+            <Button
+                android:text="@string/L3"
+                android:textColor="@color/colorPrimary"
+                android:background="#ffffff"
+                android:layout_margin="5dp"
+                android:id="@+id/Abbrev1"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:text="@string/L4"
+                android:textColor="#ffffff"
+                android:background="@color/colorPrimary"
+                android:layout_margin="5dp"
+                android:id="@+id/Abbrev1_utilization"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:text="@string/L5"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:layout_margin="5dp"
+            android:id="@+id/Abbrev2"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:text="@string/L6"
+            android:textColor="@color/colorPrimary"
+            android:background="#ffffff"
+            android:layout_margin="5dp"
+            android:id="@+id/Abbrev2_utilization"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/englidot_logo"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:src="@drawable/englidot"/>
+
+    <Button
+    android:text="나의 학습방"
+    android:textColor="#ffffff"
+    android:backgroundTint="@color/colorPrimary"
+    android:id="@+id/mySpace"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="120dp" />
+</LinearLayout>

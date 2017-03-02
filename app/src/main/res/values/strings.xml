@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Englidot</string>
-    <string name="L1">1. 알파벳</string>
-    <string name="L2">1. 2. 기본영단어</string>
-    <string name="L3">3.  약자I </string>
-    <string name="L4">4. 약자I 활용 영단어</string>
-    <string name="L5">5. 약자II</string>
-    <string name="L6">6. 약자II 활용 영단어</string>
+    <string name="L1">1단계\n알파벳</string>
+    <string name="L2">2단계\n기본영단어</string>
+    <string name="L3">3단계\n약자I </string>
+    <string name="L4">4단계\n약자I 활용</string>
+    <string name="L5">5단계\n약자II</string>
+    <string name="L6">6단계\n약자II 활용</string>
 
     <string name="A1">알파벳송</string>
     <string name="A2">A - J</string>

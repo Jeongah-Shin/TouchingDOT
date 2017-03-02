@@ -1,87 +1,57 @@
 package com.dotincorpkr.englidot.Kakaotalk;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dotincorpkr.englidot.Home;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.kakao.kakaolink.internal.Action;
+import com.dotincorpkr.englidot.BaseActivity;
+import com.dotincorpkr.englidot.MainActivity;
+import com.dotincorpkr.englidot.R;
 
 /**
  * Created by wjddk on 2017-01-23.
  */
-public class Kakaotalk_login_success extends AppCompatActivity {
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+public class Kakaotalk_login_success extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("로그인 성공. 어플리케이션을 시작해보세요");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.kakaotalk_login_success);
+
+
         LinearLayout englidot_logo = (LinearLayout)findViewById(R.id.englidot_logo);
-        ImageView profile_image = (ImageView)findViewById(R.id.profile_image);
-        TextView nickname = (TextView)findViewById(R.id.nickname);
-        TextView greeting = (TextView)findViewById(R.id.greeting);
+        TextView nickname_greeting = (TextView)findViewById(R.id.nickname_greeting);
         Button start = (Button)findViewById(R.id.start);
 
-        start.setOnClickListener(new View.OnClickListener()
-        {
+        SharedPreferences pref = getSharedPreferences("kakaoInfo", Activity.MODE_PRIVATE);
+        String kakaoNick = pref.getString("nick", "[Default] 꾸우...이름이 안나와요오");
+        String greeting_message = kakaoNick + "님, 안녕하세요!";
+
+        nickname_greeting.setText(greeting_message);
+
+        //String kakaoImage = pref.getString("imagePath", null);
+        //Uri kakaoImageUri = Uri.parse(kakaoImage);
+        //profile_image.setImageURI(kakaoImageUri);
+        //프로필 이미지 처리 - 중요 하지 않으므로 나중에!
+
+        start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(),Home.class );
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class );
                 startActivity(intent);
+                finish();
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("login_success Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
 }
+
+
+
