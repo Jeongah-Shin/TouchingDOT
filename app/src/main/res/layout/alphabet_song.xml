@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/menu"
+        android:text="MENU"
+        android:textColor="#fff"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <ImageButton
+            android:id="@+id/btn_play"
+            android:contentDescription="play button"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/play"
+            android:scaleType="centerInside"
+            android:background="#00ff0000"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/btn_pause"
+            android:contentDescription="pause button"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/pause"
+            android:scaleType="centerInside"
+            android:background="#00ff0000"/>
+
+        <ImageButton
+            android:id="@+id/btn_stop"
+            android:contentDescription="stop button"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:src="@drawable/stop"
+            android:scaleType="centerInside"
+            android:background="#00ff0000"/>
+    </LinearLayout>
+    <SeekBar
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:contentDescription="music playing process"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:max="10"
+        android:progress="0"
+        android:id="@+id/seekBar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="2">
+
+            <ImageButton
+                android:contentDescription="previous part"
+                android:id="@+id/previous_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/previous"
+                android:scaleType="centerInside"
+                android:background="#00ff0000"/>
+
+            <ImageButton
+                    android:contentDescription="next part"
+                    android:id="@+id/next_area"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/next"
+                android:scaleType="centerInside"
+                    android:background="#00ff0000"/>
+    </LinearLayout>
+
+</LinearLayout>

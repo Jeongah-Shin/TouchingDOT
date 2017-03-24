@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id = "@+id/layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <ImageView
+        android:src="@drawable/splash"
+        android:background="#fff"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:background="#00000000"
+        android:contentDescription="Touch the braille, Touch the world"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/braille_leraning"
+    android:background="#ffffffff"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dotincorp.touchingdot.Braille.BrailleEducationActivity">
+    <Button
+        android:id="@+id/menu"
+        android:text="MENU"
+        android:textColor="#fff"
+        android:background="@color/colorPrimaryDark"
+        android:layout_weight="1.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+        android:layout_weight="7"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/br1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br1_checked"
+                android:contentDescription="dot 1" />
+
+            <CheckBox
+                android:id="@+id/br2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br2_checked"
+                android:contentDescription="dot 2" />
+
+            <CheckBox
+                android:id="@+id/br3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br3_checked"
+                android:contentDescription="dot 3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/br4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br4_checked"
+                android:contentDescription="dot 4" />
+
+            <CheckBox
+                android:id="@+id/br5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br5_checked"
+                android:contentDescription="dot 5" />
+
+            <CheckBox
+                android:id="@+id/br6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:button="@drawable/br6_checked"
+                android:contentDescription="dot 6" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/setting"
+        android:background="@color/colorPrimaryDark"
+        android:contentDescription="settting"
+        android:src="@drawable/speed"
+        android:scaleType="centerInside"
+        android:layout_weight="1.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+</LinearLayout>

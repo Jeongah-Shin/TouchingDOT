@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/menu"
+        android:text="MENU"
+        android:textColor="#fff"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <TextView
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="250sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:contentDescription="go to previous letter"
+            android:id="@+id/previous"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/previous"
+            android:scaleType="centerInside"
+            android:background="#00ff0000"/>
+
+        <ImageButton
+            android:contentDescription="go to next letter"
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/next"
+            android:scaleType="centerInside"
+            android:background="#00ff0000"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/write"
+        android:background="#fff"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Dicatation"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+</LinearLayout>

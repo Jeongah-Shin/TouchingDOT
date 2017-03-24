@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dotincorp.touchingdot">
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uess-permission android:name="android.permission.BIND_VPN_SERVICE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/hellen_keller"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:exported="true"
+        android:largeHeap="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <service android:name=".X_DoNotUse.MusicService"/>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MenuActivity"/>
+        <activity android:name=".Alphabet.AlphabetSongActivity"
+            android:label= "alphabet song"/>
+        <activity android:name= ".Alphabet.AlphabetSwitchingActivity"
+            android:label="alphabet learning"/>
+        <activity android:name=".Alphabet.AlphabetReviewActivity"
+            android:label="alphabet review"/>
+        <activity android:name=".Alphabet.AlphabetTestMultipleActivity"
+            android:label="alphabet test"/>
+        <activity android:name=".Alphabet.MultipleTestResultActivity"
+            android:label="test result"/>
+        <activity android:name=".Alphabet.BrailleInsertActivity"
+            android:label="Insert the braille"/>
+        <activity android:name=".BluetoothScanning.MainActivity"
+            android:label="paring with dot watch"/>
+        <activity android:name=".BluetoothScanning.DeviceScanActivity"/>
+        <activity android:name=".Braille.BrailleEducationActivity"
+            android:label="Braille Learning" />
+        <activity android:name=".Braille.BrailleUserActionActivity"
+            android:label="Input a dot shape what you want"/>
+        <activity android:name=".Special_Letter.SpecialLetterSwitchingActivity"/>
+
+        <service
+            android:name="com.dotincorp.watchservice.BluetoothLeService"
+            android:enabled="true"
+            android:exported="true"/>
+    </application>
+
+</manifest>

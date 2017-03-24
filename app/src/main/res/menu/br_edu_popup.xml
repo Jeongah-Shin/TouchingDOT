@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id = "@+id/braille"
+        android:title="Braille">
+        <menu>
+            <item
+                android:id = "@+id/br_learning"
+                android:title="Braille Learning"/>
+            <item
+                android:id = "@+id/user_action_br"
+                android:title="Braille play" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/alphabet"
+        android:title="Alphabet">
+        <menu>
+            <item
+                android:id = "@+id/song"
+                android:title="Alphabet Song"/>
+            <item
+                android:id="@+id/ap_learning"
+                android:title="Alphabet Learning"/>
+            <item
+                android:id = "@+id/ap_test"
+                android:title="Alphabet Test"/>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/special"
+        android:title="Special Sign">
+        <menu>
+            <item
+                android:id="@+id/operator"
+                android:title="Operator"/>
+            <item
+                android:id="@+id/special_letter"
+                android:title="Special Letter"/>
+        </menu>
+    </item>
+</menu>
