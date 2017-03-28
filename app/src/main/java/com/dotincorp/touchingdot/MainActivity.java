@@ -297,7 +297,6 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
     @OnClick({R.id.button_select_device, R.id.button_connect_disconnect})
     public void onClick(View view) {
         int id = view.getId();
-
         switch (id) {
             case R.id.button_select_device:
                 startActivityForResult(new Intent(this, DeviceScanActivity.class), REQUEST_SCAN);
