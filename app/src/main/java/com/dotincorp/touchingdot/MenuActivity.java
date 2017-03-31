@@ -6,13 +6,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.PopupMenu;
 
-import com.dotincorp.touchingdot.Alphabet.AlphabetSongActivity;
-import com.dotincorp.touchingdot.Alphabet.AlphabetSwitchingActivity;
-import com.dotincorp.touchingdot.Alphabet.AlphabetTestMultipleActivity;
-import com.dotincorp.touchingdot.Braille.BrailleEducationActivity;
-import com.dotincorp.touchingdot.Braille.BrailleUserActionActivity;
-import com.dotincorp.touchingdot.Special_Letter.SpecialLetterSwitchingActivity;
-
 import butterknife.OnClick;
 
 /**
@@ -27,7 +20,7 @@ public class MenuActivity extends Activity {
         public void menuClicked(Button button){
             final PopupMenu br_edu_popup = new PopupMenu(this, button);
 
-            br_edu_popup.getMenuInflater().inflate(R.menu.br_edu_popup,br_edu_popup.getMenu());
+            br_edu_popup.getMenuInflater().inflate(R.menu.menu_br_edu,br_edu_popup.getMenu());
 
             br_edu_popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
 
@@ -37,7 +30,8 @@ public class MenuActivity extends Activity {
                 Intent apIntent = new Intent(getApplicationContext(), AlphabetSwitchingActivity.class);
                 Intent apTestIntent = new Intent(getApplicationContext(), AlphabetTestMultipleActivity.class);
                 Intent specialIntent = new Intent(getApplicationContext(),SpecialLetterSwitchingActivity.class);
-
+                //intent.putExtra("name", "rio");
+                // int age = intent.getExtras().getInt("age");
                 public boolean onMenuItemClick(MenuItem item){
                     switch(item.getItemId()){
                         case R.id.br_learning:
@@ -63,14 +57,20 @@ public class MenuActivity extends Activity {
                         case R.id.ap_test:
                             startActivity(apTestIntent);
                             break;
-                        case R.id.operator:
+                        case R.id.punctuation:
+                            specialIntent.putExtra("type","punctuation");
                             startActivity(specialIntent);
                             finish();
                             break;
-                        case R.id.special_letter:
+                        case R.id.number:
+                            specialIntent.putExtra("type","number");
                             startActivity(specialIntent);
                             finish();
                             break;
+                        case R.id.special_sign:
+                            specialIntent.putExtra("type","special_sign");
+                            startActivity(specialIntent);
+                            finish();
                     }
                     return true;
                 }

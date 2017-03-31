@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.Alphabet;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.dotincorp.touchingdot.MenuActivity;
-import com.dotincorp.touchingdot.R;
 import com.dotincorp.watchservice.BluetoothLeService;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.ContentValues.TAG;
-import static com.dotincorp.touchingdot.BluetoothScanning.MainActivity.bluetoothService;
+import static com.dotincorp.touchingdot.BleApplication.bluetoothService;
 
 // ---------------------------------------------------------------------------------------
 public class AlphabetSongActivity extends MenuActivity implements Runnable, SeekBar.OnSeekBarChangeListener {
@@ -120,7 +118,7 @@ public class AlphabetSongActivity extends MenuActivity implements Runnable, Seek
         Handler h = new Handler();
         Runnable a = new Runnable(){
             public void run(){
-                connect(loadDeviceInfo("address"));
+                //connect(loadDeviceInfo("address"));
             }
         };
         h.postDelayed(a,4000);
@@ -197,28 +195,8 @@ public class AlphabetSongActivity extends MenuActivity implements Runnable, Seek
     public void brailleSync(){
         int cp = mPlayer.getCurrentPosition();
         if((area[a]-500<=cp)&&(cp<=area[a+1]-500)){
-            sendBraille(br[a]);
+            //sendBraille(br[a]);
         }
-    }
-
-    private void sendBraille(String brailleHex) {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되어야 동작함
-            bluetoothService.sendBrailleHex(brailleHex);
-        }
-    }
-    /**
-     * 장치 연결
-     *
-     * @return 연결 성공 여부
-     */
-    private boolean connect(String address) {
-        if (bluetoothService != null) {
-            return bluetoothService.connect(address);
-        }else{
-            return false;
-        }
-
     }
 
     private String loadDeviceInfo(String index){
@@ -252,19 +230,7 @@ public class AlphabetSongActivity extends MenuActivity implements Runnable, Seek
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPlayer.release();
+        if(mPlayer!=null) mPlayer.release();
     }
 
-    @Override
-    protected void onPause() {
-        mPlayer.release();
-        //  리시버 해제
-        unregisterReceiver(gattUpdateReceiver);
-
-        // 서비스 연결 해제
-        unbindService(serviceConnection);
-        bluetoothService = null;
-
-        super.onPause();
-    }
 }

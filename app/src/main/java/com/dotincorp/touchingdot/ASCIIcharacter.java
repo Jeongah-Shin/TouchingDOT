@@ -10,82 +10,82 @@ public class ASCIIcharacter {
         char result ='X';
         switch (sum) {
             case 0b000001:
-                result = 'a';
+                result = 'A';
                 break;
             case 0b000011:
-                result = 'b';
+                result = 'B';
                 break;
             case 0b001001:
-                result = 'c';
+                result = 'C';
                 break;
             case 0b011001:
-                result = 'd';
+                result = 'D';
                 break;
             case 0b010001:
-                result = 'e';
+                result = 'E';
                 break;
             case 0b001011:
-                result = 'f';
+                result = 'F';
                 break;
             case 0b011011:
-                result = 'g';
+                result = 'G';
                 break;
             case 0b010011:
-                result = 'h';
+                result = 'H';
                 break;
             case 0b001010:
-                result = 'i';
+                result = 'I';
                 break;
             case 0b011010:
-                result = 'j';
+                result = 'J';
                 break;
             case 0b000101:
-                result = 'k';
+                result = 'K';
                 break;
             case 0b000111:
-                result = 'l';
+                result = 'L';
                 break;
             case 0b001101:
-                result = 'm';
+                result = 'M';
                 break;
             case 0b011101:
-                result = 'n';
+                result = 'N';
                 break;
             case 0b010101:
-                result = 'o';
+                result = 'O';
                 break;
             case 0b001111:
-                result = 'p';
+                result = 'P';
                 break;
             case 0b011111:
-                result = 'q';
+                result = 'Q';
                 break;
             case 0b010111:
-                result = 'r';
+                result = 'R';
                 break;
             case 0b001110:
-                result = 's';
+                result = 'S';
                 break;
             case 0b011110:
-                result = 't';
+                result = 'T';
                 break;
             case 0b100101:
-                result = 'u';
+                result = 'U';
                 break;
             case 0b100111:
-                result = 'v';
+                result = 'V';
                 break;
             case 0b111010:
-                result = 'w';
+                result = 'W';
                 break;
             case 0b101101:
-                result = 'x';
+                result = 'X';
                 break;
             case 0b111101:
-                result = 'y';
+                result = 'Y';
                 break;
             case 0b110101:
-                result = 'z';
+                result = 'Z';
                 break;
             case 0b101110:
                 result = '!';

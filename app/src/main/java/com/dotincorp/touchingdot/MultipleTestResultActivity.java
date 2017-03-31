@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.Alphabet;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.dotincorp.touchingdot.R;
-
-import static com.dotincorp.touchingdot.Alphabet.AlphabetTestMultipleActivity.wrongAnswer;
-import static com.dotincorp.touchingdot.Alphabet.AlphabetTestMultipleActivity.wrongAnswer_length;
+import static com.dotincorp.touchingdot.AlphabetTestMultipleActivity.wrongAnswer;
+import static com.dotincorp.touchingdot.AlphabetTestMultipleActivity.wrongAnswer_length;
 
 
 /**

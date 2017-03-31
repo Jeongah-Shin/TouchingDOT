@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.Braille;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,16 +10,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.dotincorp.touchingdot.R;
-
 import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-
-import static com.dotincorp.touchingdot.BluetoothScanning.MainActivity.bluetoothService;
 
 /**
  * Created by wjddk on 2017-03-21.
@@ -67,9 +63,9 @@ public class BrailleUserActionActivity extends Activity {
     @OnClick (R.id.setting)
     public void sendBtnClicked(){
         if (Integer.toHexString(sum).length()==1){
-            sendBraille("0"+Integer.toHexString(brailleResult())+"000000");
+            //sendBraille("0"+Integer.toHexString(brailleResult())+"000000");
         }else{
-            sendBraille(Integer.toHexString(brailleResult())+"000000");
+            //sendBraille(Integer.toHexString(brailleResult())+"000000");
         }
 
     }
@@ -132,12 +128,6 @@ public class BrailleUserActionActivity extends Activity {
                     break;
             }
         onInit(1);
-    }
-
-    private void sendBraille(String brailleHex) {
-        if (bluetoothService != null) {
-            bluetoothService.sendBrailleHex(brailleHex);
-        }
     }
 
     public void onInit (int status){

@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.Alphabet;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dotincorp.touchingdot.R;
 
 import java.util.Locale;
 

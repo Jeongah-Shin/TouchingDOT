@@ -1,43 +1,31 @@
-package com.dotincorp.touchingdot.BluetoothScanning;
+package com.dotincorp.touchingdot;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dotincorp.touchingdot.Braille.BrailleEducationActivity;
-import com.dotincorp.touchingdot.Constants;
-import com.dotincorp.touchingdot.R;
 import com.dotincorp.watchservice.BluetoothLeService;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.content.ContentValues.TAG;
+import static com.dotincorp.touchingdot.BleApplication.bluetoothService;
 
-public class MainActivity extends Activity implements View.OnClickListener,TextToSpeech.OnInitListener {
+public class MainActivity extends Activity{
     String deviceName;
     String deviceAddress;
     public int connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
@@ -46,6 +34,8 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
 
     static int REQUEST_SCAN = 0x00010001;
     private static final int MY_REQUEST_PERMISSION_CODE = 2;
+
+    BleApplication bleApplication = (BleApplication)getApplicationContext();
 
     // UI Widgets
     @Bind(R.id.text_device_name)
@@ -59,76 +49,13 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
     @Bind(R.id.button_select_device)
     Button button_select_device;
 
-    TextToSpeech mTTS;
-    String speakWords;
-
-    /**
-     * 블루투스 서비스
-     */
-    public static BluetoothLeService bluetoothService;
-
-    /**
-     * 서비스 연결
-     */
-    public final ServiceConnection serviceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            bluetoothService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!bluetoothService.initialize()) {
-                finish();
-            }
-
-            updateView();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            bluetoothService = null;
-            updateView();
-        }
-
-    };
-
-    /**
-     * 연결 상태 업데이트 리시버
-     */
-    private final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) { // 연결되었을 때
-                Log.i(TAG, "Received ACTION_GATT_CONNECTED");
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_SERVICES_DISCOVERED");
-            } else if (BluetoothLeService.ACTION_GATT_OBSERVER_SETTED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_OBSERVER_SETTED");
-                connectionStatus = BluetoothLeService.STATE_CONNECTED;
-                updateView();
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { // 연결 해제 되었을 때
-                Log.i(TAG, "Received ACTION_GATT_DISCONNECTED");
-                connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
-                updateView();
-            }
-        }
-    };
-
-    private IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_OBSERVER_SETTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        return intentFilter;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mTTS = new TextToSpeech(this,this);
+
         mHandler = new Handler();
         permissionCheck();
         updateView();
@@ -177,34 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
         button_connect_disconnect.setEnabled(enableGroups);
     }
 
-    @Override
-    protected void onResume() {
 
-        super.onResume();
-        // 리시버 등록
-        registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter());
-
-        // 서비스에 연결
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //  리시버 해제
-        unregisterReceiver(gattUpdateReceiver);
-        // 서비스 연결 해제
-        unbindService(serviceConnection);
-        bluetoothService = null;
-    }
-
-    @Override
-    protected void onDestroy() {
-        mTTS.shutdown();
-        super.onDestroy();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -224,75 +124,6 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * 장치 연결
-     *
-     * @return 연결 성공 여부
-     */
-    private boolean connect() {
-        if (bluetoothService != null) {
-            return bluetoothService.connect(deviceAddress);
-        }else{
-            return false;
-        }
-
-    }
-
-
-    /**
-     * 장치 연결 종료
-     */
-    private void disconnect() {
-        if (bluetoothService != null) {
-            bluetoothService.disconnect();
-        }
-    }
-
-    /**
-     * 메시지 보내기
-     * @param message 보낼 메시지
-     */
-    private void sendMessage(String message) {
-        if (bluetoothService != null) {
-            bluetoothService.sendMessage(message);
-        }
-    }
-
-    /**f
-     * 점자 코드 보내기
-     * 최대 4개의 점자 코드를 보낼 수 있다.
-     * 00 ~ 3F 까지 가능.
-     *
-     * @param brailleHex 보낼 점자 코드
-     */
-    private void sendBraille(String brailleHex) {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되어야 동작함
-            bluetoothService.sendBrailleHex(brailleHex);
-        }
-    }
-
-    /**
-     * 모든 점 올리기
-     */
-    private void raiseAll() {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되면 sendBraille 로 수정
-            bluetoothService.sendMessage("forforforfor"); // 펌웨어 업데이트 될때까지 for의 약어로 처리
-            // bluetoothService.sendBraille("3F3F3F3F");
-        }
-    }
-
-    /**
-     * 모든 점 내리기
-     */
-    private void lowerAll() {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되면 sendBraille 로 수정
-            bluetoothService.sendMessage("    "); // 펌웨어 업데이트 될때까지 공백 네개를 보내는것으로 처리
-            // bluetoothService.sendBraille("00000000");
-        }
-    }
 
     @OnClick({R.id.button_select_device, R.id.button_connect_disconnect})
     public void onClick(View view) {
@@ -303,9 +134,8 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
                 break;
             case R.id.button_connect_disconnect:
                     if(text_connection_state.getText()=="DISCONNECTED"){
-                        connect();
-                        speakWords = "Please wait a second until the dot watch gets connection.";
-                        onInit(1);
+                        bleApplication.connect();
+                        bleApplication.mTTS.speak("Please wait a second until the dot watch gets connection.", TextToSpeech.QUEUE_FLUSH, null);
                         mHandler.postDelayed(new Runnable(){
                             @Override
                             public void run(){
@@ -314,7 +144,7 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
 
                         },2000);
                     }else{
-                        disconnect();
+                        bleApplication.disconnect();
                     }
 
                 break;
@@ -336,7 +166,7 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
         deviceCheck.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                disconnect();
+                bleApplication.disconnect();
                 startActivityForResult(new Intent(MainActivity.this, DeviceScanActivity.class), REQUEST_SCAN);
             }
         });
@@ -347,19 +177,24 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
 
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED
                 ||ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED
-                ||ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED){
+//                ||ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED
+                ){
 
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    ||ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)
-                    ||ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_PERMISSION_CODE);
+//                    ||ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)
+//                    ||ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED
+                    ){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+//                        Manifest.permission.READ_CONTACTS,
+                                                    Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_PERMISSION_CODE);
 
             }
             else{
                 ActivityCompat.requestPermissions(this, new String[]{
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
                                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_CONTACTS},
+                                //Manifest.permission.READ_CONTACTS
+                        },
                         MY_REQUEST_PERMISSION_CODE);
             }
 
@@ -401,10 +236,6 @@ public class MainActivity extends Activity implements View.OnClickListener,TextT
         }
     }
 
-    public void onInit (int status){
-        mTTS.setLanguage(Locale.ENGLISH);
-        mTTS.speak(speakWords, TextToSpeech.QUEUE_FLUSH, null);
-    }
 
 
 

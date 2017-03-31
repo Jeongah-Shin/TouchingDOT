@@ -7,19 +7,20 @@
     android:orientation="vertical"
     android:weightSum="10"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dotincorp.touchingdot.Braille.BrailleEducationActivity">
-    <Button
-        android:id="@+id/menu"
-        android:text="MENU"
-        android:textColor="#fff"
-        android:background="@color/colorPrimaryDark"
-        android:layout_weight="1.5"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:text="title"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAlignment="center"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center_vertical"
@@ -85,14 +86,30 @@
                 android:contentDescription="dot 6" />
         </LinearLayout>
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/setting"
-        android:background="@color/colorPrimaryDark"
-        android:contentDescription="settting"
-        android:src="@drawable/speed"
-        android:scaleType="centerInside"
-        android:layout_weight="1.5"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp">
+
+        <ImageButton
+            android:focusable="false"
+            android:clickable="false"
+            android:src="@drawable/setting"
+            android:scaleType="centerInside"
+            android:background="#ffffffff"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/speed_setting"
+            android:text="Speed Setting"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:background="#ffffffff"
+            android:layout_width="200dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </LinearLayout>

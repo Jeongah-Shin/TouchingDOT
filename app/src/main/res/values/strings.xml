@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TouchingDOT</string>
+
+    <string name="br_tutorial">Dot Watch\nTutorial</string>
+    <string name= "br_learning">Braille\nLearning</string>
+    <string name="br_selected">Selected\nBraille Up</string>
+    <string name="br_serach">Braille Search</string>
+    <string name="ap_learning">Alphabet\nLearning</string>
+    <string name="ap_song">Alphabet\nSong</string>
+    <string name="ap_test">Test</string>
+    <string name="ap_contraction">Contraction</string>
+    <string name="sc_number">Number</string>
+    <string name="sc_punc">Punctuation</string>
+    <string name="sc_sign">Special\nSign</string>
 </resources>

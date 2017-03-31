@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/tutorial"
+        android:text="@string/br_tutorial"
+        android:textSize="30sp"
+        android:textColor="@color/colorBackground"
+        android:textAllCaps="false"
+        android:background="@drawable/my_button_bg"
+        android:backgroundTint="@color/colorHighlight"
+        android:layout_width="280dp"
+        android:layout_height="100dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/br_learning"
+            android:text="@string/br_learning"
+            android:textSize="30sp"
+            android:textColor="@color/colorBackground"
+            android:textAllCaps="false"
+            android:background="@drawable/my_button_bg"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/br_selected"
+            android:text="@string/br_selected"
+            android:textSize="30sp"
+            android:textColor="@color/colorBackground"
+            android:textAllCaps="false"
+            android:background="@drawable/my_button_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
+
+        <ImageButton
+            android:focusable="false"
+            android:clickable="false"
+            android:src="@drawable/pencil"
+            android:scaleType="centerInside"
+            android:background="#ffffffff"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/br_search"
+            android:text="@string/br_serach"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:background="#ffffffff"
+            android:layout_width="200dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.Alphabet;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +12,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.dotincorp.touchingdot.ASCIIcharacter;
-import com.dotincorp.touchingdot.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +47,7 @@ public class BrailleInsertActivity extends Activity {
     char letter_result;
     int correct,incorrect;
 
-    static public char presentAlphabet;
+    static public char presentLetter;
     Vibrator m_vibrator;
     SoundPool soundPool;
     @Override
@@ -113,7 +110,7 @@ public class BrailleInsertActivity extends Activity {
     }
 
     public void answerCheck(){
-        if (presentAlphabet==letter_result){
+        if (presentLetter==letter_result){
             correctSound();
             dictation = true;
         }

@@ -1,18 +1,12 @@
-package com.dotincorp.touchingdot.Alphabet;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,14 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dotincorp.touchingdot.R;
 import com.dotincorp.watchservice.BluetoothLeService;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
-import static com.dotincorp.touchingdot.BluetoothScanning.MainActivity.bluetoothService;
 
 /**
  * Created by wjddk on 2017-02-09.
@@ -65,72 +55,7 @@ public class AlphabetTestMultipleActivity extends Activity {
     Vibrator m_vibrator;
     SoundPool soundPool;
 
-    /**
-     * 서비스 연결
-     */
-    private final ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            bluetoothService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!bluetoothService.initialize()) {
-                finish();
-            }
 
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            bluetoothService = null;
-
-        }
-
-    };
-
-    /**
-     * 연결 상태 업데이트 리시버
-     */
-    private final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) { // 연결되었을 때
-                Log.i(TAG, "Received ACTION_GATT_CONNECTED");
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_SERVICES_DISCOVERED");
-            } else if (BluetoothLeService.ACTION_GATT_OBSERVER_SETTED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_OBSERVER_SETTED");
-                connectionStatus = BluetoothLeService.STATE_CONNECTED;
-
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { // 연결 해제 되었을 때
-                Log.i(TAG, "Received ACTION_GATT_DISCONNECTED");
-                connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
-
-            }
-        }
-    };
-
-    private IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_OBSERVER_SETTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        return intentFilter;
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // 리시버 등록
-        registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter());
-
-        // 서비스에 연결
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, serviceConnection, BIND_AUTO_CREATE);
-    }
 
 
     @Override
@@ -172,7 +97,7 @@ public class AlphabetTestMultipleActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int position,
                                     long arg3) {
-                sendMessage(choice_adapter.getItem(position).toString());
+               // sendMessage(choice_adapter.getItem(position).toString());
 
             }
         });
@@ -312,15 +237,6 @@ public class AlphabetTestMultipleActivity extends Activity {
         });
     }
 
-    /**
-     * 메시지 보내기
-     * @param message 보낼 메시지
-     */
-    private void sendMessage(String message) {
-        if (bluetoothService != null) {
-            bluetoothService.sendMessage(message);
-        }
-    }
 
 
 }

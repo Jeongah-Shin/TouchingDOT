@@ -29,14 +29,17 @@
     </item>
     <item
         android:id="@+id/special"
-        android:title="Special Sign">
+        android:title="Special Symbol">
         <menu>
             <item
-                android:id="@+id/operator"
-                android:title="Operator"/>
+                android:id="@+id/punctuation"
+                android:title="Punctuation"/>
             <item
-                android:id="@+id/special_letter"
-                android:title="Special Letter"/>
+                android:id="@+id/number"
+                android:title="Numerals"/>
+            <item
+                android:id="@+id/special_sign"
+                android:title="Special Sign"/>
         </menu>
     </item>
 </menu>

@@ -1,17 +1,11 @@
-package com.dotincorp.touchingdot.Braille;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +21,6 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
-import com.dotincorp.touchingdot.MenuActivity;
-import com.dotincorp.touchingdot.R;
 import com.dotincorp.watchservice.BluetoothLeService;
 
 import java.util.Arrays;
@@ -40,8 +32,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.content.ContentValues.TAG;
-import static com.dotincorp.touchingdot.BluetoothScanning.MainActivity.bluetoothService;
 import static com.dotincorp.touchingdot.R.id.braille;
 
 
@@ -84,73 +74,11 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
     Integer[] braille_send = {1,2,4,8,16,32,1,3,7,15,31,63,7,56,9,18,36};
 
 
-    /**
-     * 서비스 연결
-     */
-    private final ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            bluetoothService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!bluetoothService.initialize()) {
-                finish();
-            }
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            bluetoothService = null;
-
-        }
-
-    };
-
-    /**
-     * 연결 상태 업데이트 리시버
-     */
-    private final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) { // 연결되었을 때
-                Log.i(TAG, "Received ACTION_GATT_CONNECTED");
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_SERVICES_DISCOVERED");
-            } else if (BluetoothLeService.ACTION_GATT_OBSERVER_SETTED.equals(action)) {
-                Log.i(TAG, "Received ACTION_GATT_OBSERVER_SETTED");
-                connectionStatus = BluetoothLeService.STATE_CONNECTED;
-
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { // 연결 해제 되었을 때
-                Log.i(TAG, "Received ACTION_GATT_DISCONNECTED");
-                connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
-
-            }
-        }
-    };
-
-    private IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_OBSERVER_SETTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        return intentFilter;
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
         interval = loadSpeedSetting();
         t = loadTutorialSetting();
-
-        // 리시버 등록
-        registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter());
-
-        // 서비스에 연결
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, serviceConnection, BIND_AUTO_CREATE);
     }
 
 
@@ -172,7 +100,7 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
         Handler h = new Handler();
         Runnable getConnection = new Runnable(){
             public void run(){
-                connect(loadDeviceInfo("address"));
+                //connect(loadDeviceInfo("address"));
             }
         };
 
@@ -192,19 +120,6 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
         h.postDelayed(educatingAction, 8000);
     }
 
-    /**
-     * 장치 연결
-     *
-     * @return 연결 성공 여부
-     */
-    private boolean connect(String address) {
-        if (bluetoothService != null) {
-            return bluetoothService.connect(address);
-        }else{
-            return false;
-        }
-
-    }
 
     private String loadDeviceInfo(String index){
         SharedPreferences pref = getSharedPreferences("device", Activity.MODE_APPEND);
@@ -230,20 +145,6 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
         return speed;
     }
 
-    private void sendToCell_1() {
-        if (bluetoothService != null) {
-            if(Integer.toHexString(braille_send[step]).length()==1){
-                bluetoothService.sendBrailleHex("0"+Integer.toHexString(braille_send[step])+"000000");
-            }else{
-                bluetoothService.sendBrailleHex(Integer.toHexString(braille_send[step])+"000000");
-            }
-        }
-    }
-    private void sendBraille(String hex){
-        if(bluetoothService !=null){
-            bluetoothService.sendBrailleHex(hex);
-        }
-    }
 
     @OnClick(R.id.setting)
     public void speedSetting(View button){
@@ -319,23 +220,23 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
             @Override
             public void run(){
                 if(step==0){
-                    raiseAll();
+                    //raiseAll();
                     speakWords= "Dot watch has 4 cells.";
                     onInit(1);
                     step++;
                 }else if((1<=step)&&(step<=4)){
                     switch (step){
                         case 1:
-                            sendBraille("3f000000");
+                            //sendBraille("3f000000");
                             break;
                         case 2:
-                            sendBraille("003f0000");
+                            //sendBraille("003f0000");
                             break;
                         case 3:
-                            sendBraille("00003f00");
+                            //sendBraille("00003f00");
                             break;
                         case 4:
-                            sendBraille("0000003f");
+                            //sendBraille("0000003f");
                             break;
                     }
                     speakWords = "cell" + step;
@@ -364,7 +265,7 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
 
     public void brailleLearning(){
         step=0;
-        lowerAll();
+        //lowerAll();
         brailleCleanUp();
         mTask = new TimerTask(){
             @Override
@@ -376,7 +277,7 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
                             singleBrailleShow(step);
                         }
                     }));
-                    sendToCell_1();
+                   // sendToCell_1();
                     speakWords = "Dot"+"  "+(step+1);
                     onInit(1);
                 } else if ((6<=step)&&(step<=11)) {
@@ -386,7 +287,7 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
                             singleBrailleShow(step-6);
                         }
                     }));
-                    sendToCell_1();
+                   // sendToCell_1();
                     int[] stack = new int[step-5];
                     for (int i=1;i<=step-5;i++){
                         stack[i-1] = i;
@@ -405,7 +306,7 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
                             multipleBrailleShow(matrix[step-12]);
                         }
                     }));
-                    sendToCell_1();
+                   // sendToCell_1();
                     speakWords = matrix_noti[step-12];
                     onInit(1);
                     step++;
@@ -472,28 +373,6 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
         br6.setChecked(false);
     }
 
-    /**
-     * 모든 점 올리기
-     */
-    private void raiseAll() {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되면 sendBraille 로 수정
-            bluetoothService.sendMessage("forforforfor"); // 펌웨어 업데이트 될때까지 for의 약어로 처리
-            // bluetoothService.sendBraille("3F3F3F3F");
-        }
-    }
-
-    /**
-     * 모든 점 내리기
-     */
-    private void lowerAll() {
-        if (bluetoothService != null) {
-            // TODO: 펌웨어 업데이트 되면 sendBraille 로 수정
-            bluetoothService.sendMessage("    "); // 펌웨어 업데이트 될때까지 공백 네개를 보내는것으로 처리
-            // bluetoothService.sendBraille("00000000");
-        }
-    }
-
     public void onInit (int status){
         mTTS.setLanguage(Locale.ENGLISH);
         mTTS.speak(speakWords, TextToSpeech.QUEUE_FLUSH, null);
@@ -512,12 +391,6 @@ public class BrailleEducationActivity extends MenuActivity implements TextToSpee
     @Override
     protected void onPause() {
         super.onPause();
-        //  리시버 해제
-        unregisterReceiver(gattUpdateReceiver);
-
-        // 서비스 연결 해제
-        unbindService(serviceConnection);
-        bluetoothService = null;
     }
 
     @Override

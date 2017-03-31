@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
+        android:name=".BleApplication"
         android:allowBackup="true"
         android:icon="@drawable/hellen_keller"
         android:label="@string/app_name"
@@ -16,7 +17,6 @@
         android:exported="true"
         android:largeHeap="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <service android:name=".X_DoNotUse.MusicService"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,31 +24,41 @@
             </intent-filter>
         </activity>
         <activity android:name=".MenuActivity"/>
-        <activity android:name=".Alphabet.AlphabetSongActivity"
+        <activity android:name=".AlphabetSongActivity"
             android:label= "alphabet song"/>
-        <activity android:name= ".Alphabet.AlphabetSwitchingActivity"
+        <activity android:name= ".AlphabetSwitchingActivity"
             android:label="alphabet learning"/>
-        <activity android:name=".Alphabet.AlphabetReviewActivity"
+        <activity android:name=".AlphabetReviewActivity"
             android:label="alphabet review"/>
-        <activity android:name=".Alphabet.AlphabetTestMultipleActivity"
+        <activity android:name=".AlphabetTestMultipleActivity"
             android:label="alphabet test"/>
-        <activity android:name=".Alphabet.MultipleTestResultActivity"
+        <activity android:name=".MultipleTestResultActivity"
             android:label="test result"/>
-        <activity android:name=".Alphabet.BrailleInsertActivity"
+        <activity android:name=".BrailleInsertActivity"
             android:label="Insert the braille"/>
-        <activity android:name=".BluetoothScanning.MainActivity"
+        <activity android:name=".MainActivity"
             android:label="paring with dot watch"/>
-        <activity android:name=".BluetoothScanning.DeviceScanActivity"/>
-        <activity android:name=".Braille.BrailleEducationActivity"
+        <activity android:name=".DeviceScanActivity"/>
+        <activity android:name=".BrailleEducationActivity"
             android:label="Braille Learning" />
-        <activity android:name=".Braille.BrailleUserActionActivity"
+        <activity android:name=".BrailleUserActionActivity"
             android:label="Input a dot shape what you want"/>
-        <activity android:name=".Special_Letter.SpecialLetterSwitchingActivity"/>
+        <activity android:name=".SpecialLetterSwitchingActivity"/>
 
         <service
             android:name="com.dotincorp.watchservice.BluetoothLeService"
             android:enabled="true"
             android:exported="true"/>
+
+        <receiver android:name=".ConnectionReceiver">
+            <intent-filter>
+                <action android:name="BluetoothLeService.ACTION_GATT_CONNECTED"/>
+                <action android:name="BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED"/>
+                <action android:name="BluetoothLeService.ACTION_GATT_OBSERVER_SETTED"/>
+                <action android:name="BluetoothLeService.ACTION_GATT_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.dotincorp.touchingdot.BluetoothScanning;
+package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -20,9 +20,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dotincorp.touchingdot.Constants;
-import com.dotincorp.touchingdot.R;
 
 import java.util.ArrayList;
 import java.util.List;

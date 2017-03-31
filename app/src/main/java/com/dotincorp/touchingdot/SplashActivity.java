@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 
-import com.dotincorp.touchingdot.BluetoothScanning.MainActivity;
 
 /**
  * Created by wjddk on 2017-03-14.

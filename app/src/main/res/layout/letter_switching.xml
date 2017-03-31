@@ -1,61 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <Button
-        android:id="@+id/menu"
-        android:text="MENU"
-        android:textColor="#fff"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
-        android:text=""
+        android:id="@+id/title"
+        android:text="title"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimaryDark"
         android:textAlignment="center"
-        android:textSize="250sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"/>
+    <TextView
+        android:text="A"
+        android:textAlignment="center"
+        android:textSize="200sp"
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/show"/>
 
     <LinearLayout
-        android:layout_weight="1"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:contentDescription="go to previous letter"
+        <Button
+            android:text="< prev"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textAllCaps="false"
+            android:contentDescription="previous letter"
             android:id="@+id/previous"
-            android:layout_width="match_parent"
+            android:background="@drawable/radius_button_bg"
+            android:layout_width="150dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:text="next >"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textAllCaps="false"
+            android:contentDescription="next letter"
+            android:id="@+id/next"
+            android:background="@drawable/radius_button_bg"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:src="@drawable/previous"
-            android:scaleType="centerInside"
-            android:background="#00ff0000"/>
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
 
         <ImageButton
-            android:contentDescription="go to next letter"
-            android:id="@+id/next"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:src="@drawable/next"
+            android:focusable="false"
+            android:clickable="false"
+            android:src="@drawable/pencil"
             android:scaleType="centerInside"
-            android:background="#00ff0000"/>
+            android:background="#ffffffff"
+            android:layout_width="80dp"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/dictation"
+            android:text="Dictation"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:background="#ffffffff"
+            android:layout_width="200dp"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/write"
-        android:background="#fff"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Dicatation"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimaryDark"/>
 
 </LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/ap_learning"
+        android:text="@string/ap_learning"
+        android:textSize="30sp"
+        android:textColor="@color/colorBackground"
+        android:textAllCaps="false"
+        android:background="@drawable/my_button_bg"
+        android:layout_width="280dp"
+        android:layout_height="100dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/ap_song"
+            android:text="@string/ap_song"
+            android:textSize="30sp"
+            android:textColor="@color/colorBackground"
+            android:textAllCaps="false"
+            android:background="@drawable/my_button_bg"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/ap_test"
+            android:text="@string/ap_test"
+            android:textSize="30sp"
+            android:textColor="@color/colorBackground"
+            android:textAllCaps="false"
+            android:background="@drawable/my_button_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/ap_contraction"
+            android:text="@string/ap_contraction"
+            android:textSize="22sp"
+            android:textColor="@color/colorBackground"
+            android:textAllCaps="false"
+            android:background="@drawable/my_button_bg"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:focusable="false"
+            android:clickable="false"
+            android:background="#ffffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_width="135dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
