@@ -1,32 +1,35 @@
 package com.dotincorp.touchingdot;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dotincorp.watchservice.BluetoothLeService;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by wjddk on 2017-02-09.
  */
 
-public class AlphabetTestMultipleActivity extends Activity {
-    public int connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
+public class AlphabetTestMultipleActivity extends Activity implements View.OnClickListener {
 
-    int correct,incorrect;
+    int correct, incorrect;
     static char[] alphabet = {
             'A', 'B', 'C', 'D',
             'E', 'F', 'G', 'H',
@@ -36,188 +39,168 @@ public class AlphabetTestMultipleActivity extends Activity {
             'U', 'V', 'W', 'X',
             'Y', 'Z'
     };
-    public static ArrayList<Character> wrongAnswer = new ArrayList<>();
-    public static int wrongAnswer_length =0;
-    int[] generated = new int[4];
-    String selected;
-    int answer_number;
-    int set=1;
+    int p_num = 1;
+    int step = 0;
+    int wrongAnswer = 0;
     Random example_generator = new Random();
-    char[] choices = new char[4];
-    TextView example_set;
-    TextView problem_number;
-    ListView choice;
-    ArrayAdapter choice_adapter;
-    Button first;
-    Button second;
-    Button third;
-    Button fourth;
+    ArrayList<Integer> integerRand = new ArrayList<>();
+    ArrayList<Character> answer = new ArrayList<>();
+    ArrayList<String> example_set = new ArrayList<>();
+    BleApplication bleApplication;
     Vibrator m_vibrator;
     SoundPool soundPool;
+    TextToSpeech TTS;
 
+    AlertDialog.Builder choiceBuilder;
 
+    Timer mTimer;
+    TimerTask mTask;
+
+    String selected;
+
+    TextView title;
+    TextView problem_num;
+    Button _1;
+    Button _2;
+    Button _3;
+    Button _4;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.multiple_test);
+        setContentView(R.layout.alphabet_test);
+        ButterKnife.bind(this);
 
-        problem_number = (TextView)findViewById(R.id.problem_number);
-        first= (Button)findViewById(R.id.first);
-        second= (Button)findViewById(R.id.second);
-        third= (Button)findViewById(R.id.third);
-        fourth= (Button)findViewById(R.id.fourth);
+        title = (TextView)findViewById(R.id.title);
+        problem_num = (TextView)findViewById(R.id.problem_num);
+        _1 = (Button)findViewById(R.id._1);
+        _1.setOnClickListener(this);
+        _2 = (Button)findViewById(R.id._2);
+        _2.setOnClickListener(this);
+        _3 = (Button)findViewById(R.id._3);
+        _3.setOnClickListener(this);
+        _4 = (Button)findViewById(R.id._4);
+        _4.setOnClickListener(this);
 
-        example_set = (TextView)findViewById(R.id.example);
-        // Android에서 제공하는 string 문자열 하나를 출력 가능한 layout으로 어댑터 생성
-        choice_adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.test_list_item);
-
-        // Xml에서 추가한 ListView 연결
-        choice = (ListView)findViewById(R.id.choice);
-
-        // ListView에 어댑터 연결
-        choice.setAdapter(choice_adapter);
-
-        m_vibrator=(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-
-        problem_number.setText("1번");
-        randWordPlace();
-        example_set.setText(Character.toString(alphabet[answer_number]));
-
-        first.setOnClickListener(Clickname);
-        second.setOnClickListener(Clickname);
-        third.setOnClickListener(Clickname);
-        fourth.setOnClickListener(Clickname);
-
-
-        // 리스트를 터치 했을 때, 닷 워치 점자가 올라옴
-        choice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View view, int position,
-                                    long arg3) {
-               // sendMessage(choice_adapter.getItem(position).toString());
-
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    TTS.setLanguage(Locale.ENGLISH);
+                }
             }
         });
+
+        problemSet();
     }
 
-    // 제출 하였을 때, 선택된 답안이 정답이면 정답 알림 소리를 발생시키고,  정답이 아니라면 오답 알림 소리 호출 후, 다음 문제로 넘어간다.
-    View.OnClickListener Clickname = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.first:
-                    selected = choice_adapter.getItem(0).toString();
-                    break;
-                case R.id.second:
-                    selected = choice_adapter.getItem(1).toString();
-                    break;
-                case R.id.third:
-                    selected = choice_adapter.getItem(2).toString();
-                    break;
-                case R.id.fourth:
-                    selected = choice_adapter.getItem(3).toString();
-                    break;
-                default:
-                    break;
-            }
-            checkAnswer();
-            nextProblemSetting();
-            example_set.setText(Character.toString(alphabet[answer_number]));
-        }
-    };
+    @Override
+    protected void onResume() {
+        bleApplication = (BleApplication) getApplication();
+        super.onResume();
+    }
 
-
-
-    public void randWordPlace(){
-        //문제의 답안이 될 알파벳을 랜덤 추출한다.
-        answer_number = example_generator.nextInt(26);
-        Random orderShuffle = new Random();
-        int order = orderShuffle.nextInt(3);
-        //선지에 답안이 될 알파벳을 삽입한다.
-        choices[3]=alphabet[answer_number];
-        //알파벳을 제외한 다른 3개의 선지를 넣는다. 단, 그 전의 선정된 선지와 비교하여 겹치지 않도록 한다.
-        for (int index=0; index<3; index++ ){
-            generated[index] = example_generator.nextInt(25);
-            switch(index){
-                case 0:
-                    if (generated[index]==answer_number)
-                        generated[index]= generated[index]+1;
-                        break;
-                case 1:
-                    if (generated[index]==answer_number|(generated[index]==generated[index-1])|(generated[index]==generated[index+1]))
-                        generated[index]= generated[index]+1;
-                        break;
-                case 2:
-                    if (generated[index]==answer_number|(generated[index]==generated[index-1])|(generated[index]==generated[index-2]))
-                        generated[index]= generated[index]+1;
-                        break;
-                default:
-                        break;
-
-            }
-            choices[index]=alphabet[generated[index]];
-        }
-
-        switch (order){
-            case 0:
-                choice_adapter.add(choices[0]);
-                choice_adapter.add(choices[1]);
-                choice_adapter.add(choices[2]);
-                choice_adapter.add(choices[3]);
+    public void onClick(View v){
+        switch (v.getId()) {
+            case R.id._1:
+                selected = _1.getText().toString();
                 break;
-            case 1:
-                choice_adapter.add(choices[1]);
-                choice_adapter.add(choices[2]);
-                choice_adapter.add(choices[3]);
-                choice_adapter.add(choices[0]);
+            case R.id._2:
+                selected = _2.getText().toString();
                 break;
-            case 2:
-                choice_adapter.add(choices[2]);
-                choice_adapter.add(choices[3]);
-                choice_adapter.add(choices[0]);
-                choice_adapter.add(choices[1]);
+            case R.id._3:
+                selected = _3.getText().toString();
                 break;
-            case 3:
-                choice_adapter.add(choices[3]);
-                choice_adapter.add(choices[0]);
-                choice_adapter.add(choices[1]);
-                choice_adapter.add(choices[2]);
+            case R.id._4:
+                selected = _4.getText().toString();
                 break;
             default:
                 break;
         }
+        checkAnswer();
     }
 
-    public void nextProblemSetting(){
-        set ++;
-        if(set >10){
-            Intent intent = new Intent(getApplicationContext(), MultipleTestResultActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        problem_number.setText(set + "번");
-        choice_adapter.clear();
-        // ListView에 아이템 추가. 하나는 example_text 문자열, 나머지 셋은 example 글자를 제외한 랜덤의 세 가지 글자
-        randWordPlace();
+    public void problemSet() {
+        problem_num.setText("Problem" + " " + p_num);
+        TTS.speak("Problem" + " " + p_num, TextToSpeech.QUEUE_FLUSH, null);
 
+        for (int i = 0; i < 26; i++) {
+            integerRand.add(i);
+        }
+        Collections.shuffle(integerRand);
+        for (int j = 0; j < 4; j++) {
+            answer.add(alphabet[integerRand.get(j)]);
+        }
+        bleApplication.sendMessage(answer.toString());
+
+        /*정답*/
+        example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(1)] + "\n" + alphabet[integerRand.get(2)] + "\n" + alphabet[integerRand.get(3)]);
+        /*유사*/
+        example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(1)] + "\n" + alphabet[integerRand.get(2)] + "\n" + alphabet[integerRand.get(25)]);
+        /*조금 유사*/
+        example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(1)] + "\n" + alphabet[integerRand.get(24)] + "\n" + alphabet[integerRand.get(25)]);
+        /*다소 유사*/
+        example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(23)] + "\n" + alphabet[integerRand.get(24)] + "\n" + alphabet[integerRand.get(25)]);
+
+        Collections.shuffle(example_set);
+        _1.setText(example_set.get(0));
+        _2.setText(example_set.get(1));
+        _3.setText(example_set.get(2));
+        _4.setText(example_set.get(3));
     }
 
-    public void checkAnswer(){
-        //정답일 경우
-        if (Character.toString(alphabet[answer_number]).matches(selected)){
-           correctSound();
+    public void checkAnswer() {
+        String answer = alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(1)] + "\n" + alphabet[integerRand.get(2)] + "\n" + alphabet[integerRand.get(3)];
+        if(answer.matches(selected)){
+            correctSound();
+            p_num++;
+            if(p_num==11){
+                problem_num.setText("Complete");
+                getChoiceAlert("Test Result: "+wrongAnswer,"Press [Home] button to go back to home screend and press [Again] button to try once again  ","Home","Again");
+            }
+            problemSet();
 
-        }
-        //정답이 아닐 경우
-        else{
+        }else {
             incorrectSound();
-            wrongAnswer.add(alphabet[answer_number]);
-            wrongAnswer_length++;
+            wrongAnswer++;
+            mTask = new TimerTask(){
+                @Override
+                public void run(){
+                    switch(step){
+                        case 0:
+                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
+                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)]));
+                            break;
+                        case 1:
+                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
+                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)]));
+                            break;
+                        case 2:
+                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
+                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)])+Character.toString(alphabet[integerRand.get(2)]));
+                            break;
+                        case 3:
+                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
+                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)])+Character.toString(alphabet[integerRand.get(2)])
+                                    +Character.toString(alphabet[integerRand.get(3)]));
+                            break;
+                        case 4:
+                            problemSet();
+                            mTimer.cancel();
+                            mTask.cancel();
+                            break;
+                    }
+                }
+            };
+            mTimer = new Timer();
+            mTimer.schedule(mTask, 1000, 2000);
         }
     }
-    public void correctSound(){
+
+    public void correctSound() {
         correct = soundPool.load(this, correct, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
@@ -226,7 +209,8 @@ public class AlphabetTestMultipleActivity extends Activity {
             }
         });
     }
-    public void incorrectSound(){
+
+    public void incorrectSound() {
         m_vibrator.vibrate(1000);
         incorrect = soundPool.load(this, incorrect, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -237,6 +221,34 @@ public class AlphabetTestMultipleActivity extends Activity {
         });
     }
 
+    public AlertDialog.Builder getChoiceAlert(String title, String content, String positive, String negative) {
 
+        choiceBuilder = new AlertDialog.Builder(this);
+        choiceBuilder.setTitle(title)        // 제목 설정
+                .setMessage(content)        // 콘텐츠 설정
+                .setCancelable(false)        // 뒤로 버튼 눌러도 취소되지 않음.
+                .setPositiveButton(positive, new DialogInterface.OnClickListener() {
+                    // 오른쪽 버튼 클릭시 설정
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(negative, new DialogInterface.OnClickListener() {
+                    // 왼쪽 버튼 클릭시 설정
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        p_num = 1;
+                        dialog.cancel();
+                    }
+                });
 
+        return choiceBuilder;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TTS.shutdown();
+    }
 }

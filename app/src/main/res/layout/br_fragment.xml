@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
         android:id="@+id/tutorial"
+        android:onClick="brIntentMoving"
         android:text="@string/br_tutorial"
         android:textSize="30sp"
         android:textColor="@color/colorBackground"
         android:textAllCaps="false"
         android:background="@drawable/my_button_bg"
-        android:backgroundTint="@color/colorHighlight"
+        android:backgroundTint="@color/colorAccent"
         android:layout_width="280dp"
         android:layout_height="100dp" />
     <LinearLayout
@@ -22,6 +23,7 @@
         android:layout_marginTop="10dp">
         <Button
             android:id="@+id/br_learning"
+            android:onClick="brIntentMoving"
             android:text="@string/br_learning"
             android:textSize="30sp"
             android:textColor="@color/colorBackground"
@@ -31,8 +33,9 @@
             android:layout_height="match_parent" />
         <Button
             android:id="@+id/br_selected"
+            android:onClick="brIntentMoving"
             android:text="@string/br_selected"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textColor="@color/colorBackground"
             android:textAllCaps="false"
             android:background="@drawable/my_button_bg"
@@ -58,9 +61,10 @@
             android:layout_height="40dp" />
         <Button
             android:id="@+id/br_search"
+            android:onClick="brIntentMoving"
             android:text="@string/br_serach"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textColor="@color/colorPrimaryDark"
             android:textAllCaps="false"
             android:background="#ffffffff"

@@ -1,6 +1,10 @@
 <resources>
+    <string name="tutorial">Dot Watch has four cells. the first cell, the second cell, the third cell, and the fourth cell, each cell represents a single character.
+        In Dot Watch Braille learning, braille is taught using the first cell. Braille learning is divided into three broad categories. First! Braille tab. In braille learning part, you will practice to distinguish each point in the cell.
+        In braille learning, You can touch the braille points from 1 to 6 in order, and then entering the selected braille up! maekes you can touch the braille type as you want. In the braille search!, when you enter the letters
+        you want to know about the braille character, dot watch displays its braille form. Second! The Alphabet Tab. It helps you to learn the basic alphabets of twenty six characters and supports the alphabet memorization through the
+        alphabet song. Testing process can check your own learning achievement.A special character tab. You can learn braille form of special sign!, punctuation!, and numbers!. Now, Let\'\s start practice.</string>
     <string name="app_name">TouchingDOT</string>
-
     <string name="br_tutorial">Dot Watch\nTutorial</string>
     <string name= "br_learning">Braille\nLearning</string>
     <string name="br_selected">Selected\nBraille Up</string>
@@ -12,4 +16,11 @@
     <string name="sc_number">Number</string>
     <string name="sc_punc">Punctuation</string>
     <string name="sc_sign">Special\nSign</string>
+    <string name="previous"> &#60; previous </string>
+    <string name="previous_descr">go to previous section</string>
+    <string name="next">Next &#62; </string>
+    <string name="next_desc">go to next section</string>
+    <string name="test">Test</string>
+    <string name="send">Send</string>
+    <string name="send_descr">send letters to dot watch</string>
 </resources>

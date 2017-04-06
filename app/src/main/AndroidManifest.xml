@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <application
         android:name=".BleApplication"
         android:allowBackup="true"
@@ -23,27 +24,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"/>
-        <activity android:name=".AlphabetSongActivity"
-            android:label= "alphabet song"/>
-        <activity android:name= ".AlphabetSwitchingActivity"
-            android:label="alphabet learning"/>
-        <activity android:name=".AlphabetReviewActivity"
-            android:label="alphabet review"/>
-        <activity android:name=".AlphabetTestMultipleActivity"
-            android:label="alphabet test"/>
-        <activity android:name=".MultipleTestResultActivity"
-            android:label="test result"/>
-        <activity android:name=".BrailleInsertActivity"
-            android:label="Insert the braille"/>
         <activity android:name=".MainActivity"
-            android:label="paring with dot watch"/>
-        <activity android:name=".DeviceScanActivity"/>
+            android:label="홈 화면"/>
+        <activity android:name=".AlphabetSongActivity"
+            android:label= "알파벳 송"/>
+        <activity android:name= ".AlphabetSwitchingActivity"
+            android:label="알파벳 배우기"/>
+        <activity android:name=".AlphabetTestMultipleActivity"
+            android:label="테스트"/>
+        <activity android:name=".BrailleInsertActivity"
+            android:label="점자를 입력하세요"/>
+        <activity android:name=".GetConnectionActivity"
+            android:label="닷 워치 기기를 선택하세요"/>
+        <activity android:name=".DeviceScanActivity"
+            android:label="디바이스 스캔을 시작합니다"/>
         <activity android:name=".BrailleEducationActivity"
-            android:label="Braille Learning" />
+            android:label="점자 배우기" />
         <activity android:name=".BrailleUserActionActivity"
-            android:label="Input a dot shape what you want"/>
+            android:label="원하는 점형을 입력하고, 워치에 보내보세요"/>
         <activity android:name=".SpecialLetterSwitchingActivity"/>
+        <activity android:name=".BrailleSearchActivity"
+            android:label="원하는 점자의 점형을 찾아보세요."/>
+        <activity android:name=".DwTutorialActivity"
+            android:label="tutorial section"/>
 
         <service
             android:name="com.dotincorp.watchservice.BluetoothLeService"

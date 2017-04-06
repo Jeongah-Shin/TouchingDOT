@@ -9,76 +9,68 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by wjddk on 2017-01-23.
  */
 
-public class BrailleInsertActivity extends Activity {
+public class BrailleInsertActivity extends Activity implements View.OnClickListener {
+
     //액티비티 구성 요소
-    @Bind(R.id.br1)
     CheckBox br1;
-    @Bind(R.id.br2)
     CheckBox br2;
-    @Bind(R.id.br3)
     CheckBox br3;
-    @Bind(R.id.br4)
     CheckBox br4;
-    @Bind(R.id.br5)
     CheckBox br5;
-    @Bind(R.id.br6)
     CheckBox br6;
-    @Bind(R.id.menu)
-    Button menu;
-    @Bind(R.id.setting)
-    ImageButton setting;
-    @Bind(R.id.braille_leraning)
-    LinearLayout activity_main;
+    Button send;
+    LinearLayout braille_learning;
 
     int sum;
-    static boolean dictation = false;
+    public static boolean dictation = false;
     char letter_result;
     int correct,incorrect;
 
     static public char presentLetter;
     Vibrator m_vibrator;
     SoundPool soundPool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTitle("점자를 입력해주세요.");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.braille_learning);
-        ButterKnife.bind(this);
-        modifyView();
+        setContentView(R.layout.braille_grid);
+
+        br1 = (CheckBox)findViewById(R.id.br1);
+        br2 = (CheckBox)findViewById(R.id.br2);
+        br3 = (CheckBox)findViewById(R.id.br3);
+        br4 = (CheckBox)findViewById(R.id.br4);
+        br5 = (CheckBox)findViewById(R.id.br5);
+        br6 = (CheckBox)findViewById(R.id.br6);
+        send = (Button)findViewById(R.id.send);
+        send.setOnClickListener(this);
+        braille_learning = (LinearLayout)findViewById(R.id.braille_leraning);
 
         m_vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC,0);
 
     }
-
-    @OnClick(R.id.setting)
-    public void submitAction(){
-        brailleResult();
-        Toast show=Toast.makeText(getApplicationContext(), "바이너리:"+Integer.toBinaryString(sum)+"헥스:"+Integer.toHexString(sum)+"문자:"+letter_result, Toast.LENGTH_SHORT);
-        show.show();
-        answerCheck();
-        if (dictation){
-            finish();
+    public void onClick(View v){
+        int id = v.getId();
+        if (id ==R.id.send){
+            brailleResult();
+            Toast show=Toast.makeText(getApplicationContext(), "바이너리:"+Integer.toBinaryString(sum)+"헥스:"+Integer.toHexString(sum)+"문자:"+letter_result, Toast.LENGTH_SHORT);
+            show.show();
+            answerCheck();
+            if (dictation){
+                finish();
+            }
         }
     }
 
-    public void modifyView(){
-        menu.setVisibility(View.INVISIBLE);
-        setting.setBackgroundResource(R.drawable.send);
-        setting.setContentDescription("Submition button");
-    }
+
 
     public void brailleResult(){
         sum = 0;
@@ -150,5 +142,11 @@ public class BrailleInsertActivity extends Activity {
         br6.setChecked(false);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        m_vibrator.cancel();
+        soundPool.release();
+    }
 }
 

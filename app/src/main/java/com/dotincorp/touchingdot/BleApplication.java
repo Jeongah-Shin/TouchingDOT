@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.speech.tts.TextToSpeech;
 
 import com.dotincorp.watchservice.BluetoothLeService;
-
-import java.util.Locale;
 
 /**
  * Created by wjddk on 2017-03-29.
@@ -26,9 +23,7 @@ public class BleApplication extends Application {
 
     String deviceName;
     String deviceAddress;
-//    public int connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
-
-    TextToSpeech mTTS;
+    public int connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
 
     static int REQUEST_SCAN = 0x00010001;
 
@@ -58,53 +53,10 @@ public class BleApplication extends Application {
 
     };
 
-//    /**
-//     * 연결 상태 업데이트 리시버
-//     */
-//    public final BroadcastReceiver gattUpdateReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            final String action = intent.getAction();
-//
-//            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) { // 연결되었을 때
-//                Log.i(TAG, "Received ACTION_GATT_CONNECTED");
-//            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-//                Log.i(TAG, "Received ACTION_GATT_SERVICES_DISCOVERED");
-//            } else if (BluetoothLeService.ACTION_GATT_OBSERVER_SETTED.equals(action)) {
-//                Log.i(TAG, "Received ACTION_GATT_OBSERVER_SETTED");
-//                connectionStatus = BluetoothLeService.STATE_CONNECTED;
-//            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) { // 연결 해제 되었을 때
-//                Log.i(TAG, "Received ACTION_GATT_DISCONNECTED");
-//                connectionStatus = BluetoothLeService.STATE_DISCONNECTED;
-//            }
-//        }
-//    };
-//
-//    public IntentFilter makeGattUpdateIntentFilter() {
-//        final IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_OBSERVER_SETTED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-//        return intentFilter;
-//    }
 
     @Override
     public void onCreate(){
         super.onCreate();
-
-        // TTS(Text-To-Speech) 객체 등록
-        mTTS =new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    mTTS.setLanguage(Locale.ENGLISH);
-                }
-            }
-        });
-
-        // 리시버 등록
-//        registerReceiver(gattUpdateReceiver, makeGattUpdateIntentFilter());
 
         // 서비스에 연결
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -115,12 +67,6 @@ public class BleApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
 
-        mTTS.stop();
-        mTTS.shutdown();
-
-//        //  리시버 해제
-//        unregisterReceiver(gattUpdateReceiver);
-        // 서비스 연결 해제
         unbindService(serviceConnection);
         bluetoothService = null;
     }

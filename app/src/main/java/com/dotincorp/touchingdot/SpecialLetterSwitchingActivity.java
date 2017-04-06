@@ -6,35 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Created by wjddk on 2017-03-21.
  */
 
-public class SpecialLetterSwitchingActivity extends Activity implements TextToSpeech.OnInitListener {
+public class SpecialLetterSwitchingActivity extends Activity implements View.OnClickListener{
 
-    @Bind(R.id.show)
     TextView show;
-    @Bind(R.id.previous)
-    ImageButton previous;
-    @Bind(R.id.next)
-    ImageButton next;
-    @Bind(R.id.write)
-    Button write;
+    Button previous;
+    Button next;
+    Button dictation;
 
-    TextToSpeech mTTS;
+    TextToSpeech TTS;
     Vibrator m_vibrator;
-    String speakWords;
+    BleApplication bleApplication;
     
     String type;
 
@@ -50,44 +42,56 @@ public class SpecialLetterSwitchingActivity extends Activity implements TextToSp
     @Override
     protected void onResume() {
         super.onResume();
-        Intent inputIntent = new Intent();
-        type = inputIntent.getExtras().getString("type");
+        bleApplication = (BleApplication) getApplication();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.letter_switching);
-        ButterKnife.bind(this);
+        show = (TextView)findViewById(R.id.show);
+        previous = (Button)findViewById(R.id.previous);
+        previous.setOnClickListener(this);
+        next= (Button)findViewById(R.id.next);
+        next.setOnClickListener(this);
+        dictation = (Button)findViewById(R.id.dictation);
+        dictation.setOnClickListener(this);
 
         updateView();
-        speakWords = show.getText().toString();
-        onInit(1);
+
+        TTS.speak(show.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
         m_vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-        mTTS = new TextToSpeech(this,this);
+        TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    TTS.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+    }
 
-    }
-    @OnClick(R.id.next)
-    public void nextBtnClicked(){
-        position++;
-        updateView();
-        speakWords = show.getText().toString();
-        onInit(1);
-    }
-    @OnClick(R.id.previous)
-    public void previousBtnClicked(){
-        position--;
-        updateView();
-        speakWords = show.getText().toString();
-        onInit(1);
-    }
-    @OnClick(R.id.write)
-    public void writeBtnClicked(){
-        presentLetter = show.getText().toString();
-        Intent writeIntent = new Intent(getApplicationContext(),BrailleInsertActivity.class);
-        startActivity(writeIntent);
+    public void onClick(View v){
+        int id = v.getId();
+        switch (id){
+            case R.id.next:
+                position++;
+                updateView();
+                TTS.speak(show.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case R.id.previous:
+                position--;
+                updateView();
+                TTS.speak(show.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                break;
+            case R.id.dictation:
+                presentLetter = show.getText().toString();
+                Intent writeIntent = new Intent(getApplicationContext(),BrailleInsertActivity.class);
+                startActivity(writeIntent);
+                break;
 
+        }
     }
     public void updateView(){
         switch (type){
@@ -101,6 +105,7 @@ public class SpecialLetterSwitchingActivity extends Activity implements TextToSp
                     alert.show();
                 }
                 show.setText(Character.toString(punctuation[position]));
+                bleApplication.sendMessage(Character.toString(punctuation[position]));
                 break;
             case "number":
                 if (position>numeral.length-1){
@@ -112,6 +117,7 @@ public class SpecialLetterSwitchingActivity extends Activity implements TextToSp
                     alert.show();
                 }
                 show.setText(Integer.toString(numeral[position]));
+                bleApplication.sendMessage(Integer.toString(numeral[position]));
                 break;
             case "special_sign":
                 if (position>special_sign.length-1){
@@ -123,21 +129,18 @@ public class SpecialLetterSwitchingActivity extends Activity implements TextToSp
                     alert.show();
                 }
                 show.setText(special_sign[position]+"\n"+"sign");
+                bleApplication.sendMessage(special_sign[position]);
                 break;
         }
     }
 
-    public void onInit (int status){
-        mTTS.setLanguage(Locale.ENGLISH);
-        mTTS.speak(speakWords, TextToSpeech.QUEUE_FLUSH, null);
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mTTS !=null){
-            mTTS.stop();
-            mTTS.shutdown();
+        if(TTS !=null){
+            TTS.stop();
+            TTS.shutdown();
         }
     }
 

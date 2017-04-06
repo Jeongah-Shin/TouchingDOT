@@ -28,9 +28,9 @@
         android:orientation="horizontal">
 
         <Button
-            android:text="< prev"
+            android:text="@string/previous"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:contentDescription="previous letter"
             android:id="@+id/previous"
@@ -39,9 +39,9 @@
             android:layout_height="match_parent" />
 
         <Button
-            android:text="next >"
+            android:text="@string/next"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:contentDescription="next letter"
             android:id="@+id/next"

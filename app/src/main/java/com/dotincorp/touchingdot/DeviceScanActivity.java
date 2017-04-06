@@ -33,22 +33,22 @@ public class DeviceScanActivity extends ListActivity {
     private BluetoothAdapter bluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
+
     private ArrayList<BluetoothDevice> deviceList;
 
     BluetoothDevice device;
 
     // Stops scanning after 20 seconds.
-    private static final long SCAN_PERIOD = 20000;
+    private static final long SCAN_PERIOD = 10000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
-
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, "This device doesn't support Bluetooth Low Energy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "본 기기는 ble 서비스를 지원하지 않습니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -59,7 +59,7 @@ public class DeviceScanActivity extends ListActivity {
 
         // Checks if Bluetooth is supported on the device.
         if (bluetoothAdapter == null) {
-            Toast.makeText(this, "This device doesn't support Bluetooth", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "본 기기는 블루투스 기능을 지원하지 않습니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -100,9 +100,14 @@ public class DeviceScanActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Scan Device
-        scanLeDevice(true);
+//        Handler scanHandler = new Handler();
+//        Runnable scanStart = new Runnable(){
+//            public void run(){
+//                // Scan Device
+                scanLeDevice(true);
+//            }
+//        };
+//        scanHandler.postDelayed(scanStart,3000);
     }
 
     @Override
@@ -262,5 +267,6 @@ public class DeviceScanActivity extends ListActivity {
             });
         }
     };
+
 
 }
