@@ -47,13 +47,7 @@ public class GetConnectionActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
-        text_device_name = (TextView) findViewById(R.id.text_device_name);
-        text_device_address = (TextView) findViewById(R.id.text_device_address);
-        text_connection_state = (TextView) findViewById(R.id.text_connection_state);
-        button_connect_disconnect = (Button) findViewById(R.id.button_connect_disconnect);
-        button_connect_disconnect.setOnClickListener(this);
-        button_select_device = (Button) findViewById(R.id.button_select_device);
-        button_select_device.setOnClickListener(this);
+        viewBinder();
 
         TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -225,6 +219,16 @@ public class GetConnectionActivity extends Activity implements View.OnClickListe
         } else {
             return "null";
         }
+    }
+
+    public void viewBinder(){
+        text_device_name = (TextView) findViewById(R.id.text_device_name);
+        text_device_address = (TextView) findViewById(R.id.text_device_address);
+        text_connection_state = (TextView) findViewById(R.id.text_connection_state);
+        button_connect_disconnect = (Button) findViewById(R.id.button_connect_disconnect);
+        button_connect_disconnect.setOnClickListener(this);
+        button_select_device = (Button) findViewById(R.id.button_select_device);
+        button_select_device.setOnClickListener(this);
     }
 
     @Override

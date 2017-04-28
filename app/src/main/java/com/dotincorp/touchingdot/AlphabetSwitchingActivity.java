@@ -22,7 +22,10 @@ import static com.dotincorp.touchingdot.BrailleInsertActivity.presentLetter;
  */
 
 public class AlphabetSwitchingActivity extends Activity implements  View.OnClickListener{
-
+    /**
+     * 알파벳 문자를 switching 하면서 닷 워치로 학습하고, dictation 해볼 수 있는 Activity
+     */
+    TextView title;
     TextView show;
     Button previous;
     Button next;
@@ -46,19 +49,16 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
             'W'
     };
 
-    @Override
+    static String[] alphabet_braille_table =
+    {
+        "01", "03", "09", "19", "11", "0B", "1B", "13", "0A", "1A", "05", "07", "0D",
+                "1D", "15", "0F", "1F", "17", "0e", "1e", "25", "27", "3a", "2d", "3d", "35"
+    };
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.letter_switching);
-        show = (TextView)findViewById(R.id.show);
-        previous = (Button)findViewById(R.id.previous);
-        previous.setOnClickListener(this);
-        next = (Button)findViewById(R.id.next);
-        next.setOnClickListener(this);
-        dictation =(Button)findViewById(R.id.dictation);
-        dictation.setOnClickListener(this);
-
-        show.setText(Character.toString(alphabet[position]));
+        viewBinder();
 
         m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -67,6 +67,7 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
                 if (status != TextToSpeech.ERROR) {
                     TTS.setLanguage(Locale.ENGLISH);
                     TTS.speak(String.valueOf(alphabet[position]), TextToSpeech.QUEUE_FLUSH, null);
+                    bleApplication.sendBraille(alphabet_braille_table[position]+"000000");
                 }
             }
         });
@@ -81,16 +82,18 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
 
     public void onClick(View view){
         int id = view.getId();
-
         switch (id){
+            //dictation 버튼을 누르면 화면 위 점자를 따라 쓸 수 있는 BrailleInsertActivity가 소환된다.
+            // 화면 위 알파벳의 점형을 올바르게 입력해야만 다시 AlphabetSwitchingActivity(학습 화면)로 돌아올 수 있다.
             case R.id.dictation:
                 presentLetter = alphabet[position];
                 Intent dictationIntent = new Intent(getApplicationContext(), BrailleInsertActivity.class);
                 startActivity(dictationIntent);
                 break;
-            case R.id.previous:
+            // 이전, 이후로 가는 버튼을 누르게 되면 닷 워치에 이전, 이후에 해당하는 문제를 보내고 화면에 띄움과 동시에 position(인덱스 역할)이 선언해놓은 배열의 크기 넘어가지 않는지 판단하는 overChceck() 함수를 호출한다.
+           case R.id.previous:
                 position--;
-                bleApplication.sendMessage(Character.toString(alphabet[position]));
+                bleApplication.sendBraille(alphabet_braille_table[position]+"000000");
                 overCheck();
                 show.setText(Character.toString(alphabet[position]));
                 TTS.speak(String.valueOf(alphabet[position]), TextToSpeech.QUEUE_FLUSH, null);
@@ -98,11 +101,13 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
             case R.id.next:
                 if (BrailleInsertActivity.dictation) {
                     position++;
-                    bleApplication.sendMessage(Character.toString(alphabet[position]));
+                    bleApplication.sendBraille(alphabet_braille_table[position]+"000000");
                     overCheck();
                     show.setText(Character.toString(alphabet[position]));
                     TTS.speak(String.valueOf(alphabet[position]), TextToSpeech.QUEUE_FLUSH, null);
+                    BrailleInsertActivity.dictation = false;
                 } else {
+                    //BrailleInsertActivity를 통해 올바른 점형을 입력하지 않으면 다음 위치로 넘어갈 수 없다.
                     m_vibrator.vibrate(500);
                     Toast dictate = Toast.makeText(getApplicationContext(), "Dictate the letter on th screen", Toast.LENGTH_SHORT);
                     dictate.show();
@@ -117,6 +122,7 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
             Toast alert = Toast.makeText(getApplicationContext(), "cannot move this way", Toast.LENGTH_SHORT);
             alert.show();
         }
+        //Stage 별로 클리어 했을 때, 알림 소리 송출
         if (position > max_num[stage - 1]) {
             switch (stage) {
                 case 1:
@@ -142,7 +148,7 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
             }
         }
     }
-
+    //TODO getChoiceAlert, getGeneralAlert 함수를 호출해도 해당 알림창이 나오지 않음.
     public AlertDialog.Builder getChoiceAlert(String title, String content, String positive, String negative) {
 
         choiceBuilder = new AlertDialog.Builder(this);
@@ -183,6 +189,21 @@ public class AlphabetSwitchingActivity extends Activity implements  View.OnClick
                 });
 
         return generalBuilder;
+    }
+
+    public void viewBinder(){
+
+        title = (TextView)findViewById(R.id.title);
+        title.setText("Alphabet Learning");
+        show = (TextView)findViewById(R.id.show);
+        previous = (Button)findViewById(R.id.previous);
+        previous.setOnClickListener(this);
+        next = (Button)findViewById(R.id.next);
+        next.setOnClickListener(this);
+        dictation =(Button)findViewById(R.id.dictation);
+        dictation.setOnClickListener(this);
+
+        show.setText(Character.toString(alphabet[position]));
     }
 
     @Override

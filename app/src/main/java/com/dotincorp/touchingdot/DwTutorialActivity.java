@@ -18,6 +18,9 @@ import static android.speech.tts.TextToSpeech.QUEUE_ADD;
  */
 
 public class DwTutorialActivity extends Activity {
+    /**
+     * 튜토리얼 재생 Activity
+     */
 
     BleApplication bleApplication;
     //    TextToSpeech TTS;
@@ -25,8 +28,14 @@ public class DwTutorialActivity extends Activity {
     TimerTask mTask;
     Timer mTimer;
 
+    public static final String TUTORIAL_SCRIPT = "닷 워치에는 4개의 셀이 있습니다/첫번째 셀/두번째 셀/세번째 셀/네번째 셀/각각의 셀은 하나의 문자를 의미합니다/" +
+            "        닷워치 점자 학습에서는 첫번째 셀을 이용해 점자를 학습합니다/점자 학습은 크게 세 분류로 나뉩니다/첫번째! 점자 탭/점자 학습 파트에서는 점형을 감별하는 연습을 하게 됩니다/" +
+            "        점자 학습!에서는 1점에서 6점까지의 점자를 차례대로 올려보고 원하는 점자 올리기!에서는 원하는 점형을 입력하여 닷 워치에서 보여줍니다/점자 찾기!에서는 점형이 알고 싶은 글자를 입력하면 닷 워치에서 해당 글자를 출력합니다/" +
+            "        두번째! 알파벳 탭.알파벳 학습에서는 기본적인 알파벳 스물 여섯자의 학습 및 알파벳 송을 통한 알파벳 암기 기능을 지원합니다/테스트 과정을 통해 학습 성취를 점검할 수 있습니다/마지막으로 특수문자 탭/" +
+            "        특수 문자, 구두점과 닷 워치 시간을 읽기 위한 숫자 점자 기호를 학습할 수 있습니다/자! 이제 학습을 시작해볼까요?";
+
     int step = 0;
-    String[] tutorial = new String[100];
+    String[] tutorial = TUTORIAL_SCRIPT.split("/");
     ImageView cell1;
     ImageView cell2;
     ImageView cell3;
@@ -63,7 +72,6 @@ public class DwTutorialActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        tutorial = getString(R.string.tutorial).split(".");
         bleApplication = (BleApplication) getApplication();
     }
 
@@ -123,12 +131,17 @@ public class DwTutorialActivity extends Activity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         kTTS.shutdown();
         if ((mTimer != null) && (mTask != null)) {
             mTimer.cancel();
             mTask.cancel();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

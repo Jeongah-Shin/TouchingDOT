@@ -17,6 +17,9 @@ public class AlphabetFragment extends Fragment {
     Button ap_song;
     Button ap_test;
 
+    /**
+     * Alphabet 탭의 View를 띄우는 Fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ap_fragment, container, false);

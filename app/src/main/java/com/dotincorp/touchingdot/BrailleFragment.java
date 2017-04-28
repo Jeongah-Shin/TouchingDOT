@@ -19,6 +19,10 @@ public class BrailleFragment extends Fragment {
     Button br_selected;
     Button br_search;
 
+    /**
+     * Braille 탭의 View를 띄우는 Fragment
+     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.br_fragment, container, false);

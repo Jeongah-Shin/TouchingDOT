@@ -51,7 +51,7 @@
         <Button
             android:focusable="false"
             android:clickable="false"
-            android:background="#ffffffff"
+            android:background="@android:color/transparent"
             android:layout_marginLeft="10dp"
             android:layout_width="135dp"
             android:layout_height="match_parent" />

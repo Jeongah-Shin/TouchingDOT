@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/title"
-        android:text="title"
+        android:text=""
         android:textSize="40sp"
         android:textColor="@color/colorPrimaryDark"
         android:textAlignment="center"
@@ -13,7 +13,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"/>
     <TextView
-        android:text="A"
+        android:text=""
         android:textAlignment="center"
         android:textSize="200sp"
         android:textColor="@color/colorPrimaryDark"
@@ -59,11 +59,12 @@
         android:layout_marginTop="10dp">
 
         <ImageButton
+            android:id="@+id/dictation_img"
             android:focusable="false"
             android:clickable="false"
             android:src="@drawable/pencil"
             android:scaleType="centerInside"
-            android:background="#ffffffff"
+            android:background="@android:color/transparent"
             android:layout_width="80dp"
             android:layout_height="40dp" />
         <Button
@@ -73,7 +74,7 @@
             android:textSize="30sp"
             android:textColor="@color/colorPrimaryDark"
             android:textAllCaps="false"
-            android:background="#ffffffff"
+            android:background="@android:color/transparent"
             android:layout_width="200dp"
             android:layout_height="match_parent" />
     </LinearLayout>

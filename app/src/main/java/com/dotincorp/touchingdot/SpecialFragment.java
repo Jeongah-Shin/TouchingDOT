@@ -13,6 +13,9 @@ import android.widget.Button;
  */
 
 public class SpecialFragment extends Fragment {
+    /**
+     * 특수문자 탭의 View를 띄우는 Fragment
+     */
 
     Button sc_number;
     Button sc_punc;

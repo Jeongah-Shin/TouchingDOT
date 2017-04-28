@@ -18,6 +18,10 @@ import java.util.Locale;
 
 public class BrailleUserActionActivity extends Activity implements View.OnClickListener, RadioButton.OnCheckedChangeListener {
 
+    /**
+     * User가 입력한 점자를 띄어주는 액티비티
+     */
+
     //액티비티 구성 요소
     CheckBox br1;
     CheckBox br2;
@@ -39,29 +43,9 @@ public class BrailleUserActionActivity extends Activity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.braille_grid);
-        br1 = (CheckBox) findViewById(R.id.br1);
-        br1.setOnCheckedChangeListener(this);
-        br2 = (CheckBox) findViewById(R.id.br2);
-        br2.setOnCheckedChangeListener(this);
-        br3 = (CheckBox) findViewById(R.id.br3);
-        br3.setOnCheckedChangeListener(this);
-        br4 = (CheckBox) findViewById(R.id.br4);
-        br4.setOnCheckedChangeListener(this);
-        br5 = (CheckBox) findViewById(R.id.br5);
-        br5.setOnCheckedChangeListener(this);
-        br6 = (CheckBox) findViewById(R.id.br6);
-        br6.setOnCheckedChangeListener(this);
 
-        send = (Button) findViewById(R.id.send);
-        send.setOnClickListener(this);
-
-        previous = (Button)findViewById(R.id.previous);
-        previous.setVisibility(View.GONE);
-        next = (Button)findViewById(R.id.next);
-        next.setVisibility(View.GONE);
-        braille_learning = (LinearLayout) findViewById(R.id.braille_leraning);
+        viewBinder();
 
         TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
@@ -135,7 +119,7 @@ public class BrailleUserActionActivity extends Activity implements View.OnClickL
                 break;
             case R.id.br2:
                 if (br2.isChecked()) speakWords = "dot 2 checked";
-                else speakWords = "dot 2 cnaceled";
+                else speakWords = "dot 2 canceled";
                 break;
             case R.id.br3:
                 if (br3.isChecked()) speakWords = "dot 3 checked";
@@ -155,5 +139,28 @@ public class BrailleUserActionActivity extends Activity implements View.OnClickL
                 break;
         }
         TTS.speak(speakWords, TextToSpeech.QUEUE_FLUSH, null);
+    }
+    public void viewBinder(){
+        br1 = (CheckBox) findViewById(R.id.br1);
+        br1.setOnCheckedChangeListener(this);
+        br2 = (CheckBox) findViewById(R.id.br2);
+        br2.setOnCheckedChangeListener(this);
+        br3 = (CheckBox) findViewById(R.id.br3);
+        br3.setOnCheckedChangeListener(this);
+        br4 = (CheckBox) findViewById(R.id.br4);
+        br4.setOnCheckedChangeListener(this);
+        br5 = (CheckBox) findViewById(R.id.br5);
+        br5.setOnCheckedChangeListener(this);
+        br6 = (CheckBox) findViewById(R.id.br6);
+        br6.setOnCheckedChangeListener(this);
+
+        send = (Button) findViewById(R.id.send);
+        send.setOnClickListener(this);
+
+        previous = (Button)findViewById(R.id.previous);
+        previous.setVisibility(View.GONE);
+        next = (Button)findViewById(R.id.next);
+        next.setVisibility(View.GONE);
+        braille_learning = (LinearLayout) findViewById(R.id.braille_leraning);
     }
 }

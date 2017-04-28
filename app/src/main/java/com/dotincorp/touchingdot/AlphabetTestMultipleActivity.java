@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -17,19 +18,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by wjddk on 2017-02-09.
  */
 
 public class AlphabetTestMultipleActivity extends Activity implements View.OnClickListener {
-
+    /**
+     * 알파벳 테스트를 진행하는 Activity
+     * 4개의 각기 다른 알파벳을 랜덤으로 추출해서 닷 워치에 올리고, 해당 알파벳들이 담고 있는 정답 선지를 찾는다.
+     * ArrayList<Integer> integerRand - 0-25 범위의 26개 정수 중 4개의 난수를 추출하여 삽입한다. 만약 추출된 정수가 {0,4,5,8} 이라고 한다면 A,E,F,I 가 정답이 된다.
+     * ArrayList<String> example_set - 실제 user에게 보여주는 선지 목록. 정답이 A,E,F,I라고 한다면 유사 정답을 배치해서 난이도를 조절한다.
+     */
     int correct, incorrect;
+    int streamId;
     static char[] alphabet = {
             'A', 'B', 'C', 'D',
             'E', 'F', 'G', 'H',
@@ -40,23 +42,18 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
             'Y', 'Z'
     };
     int p_num = 1;
-    int step = 0;
     int wrongAnswer = 0;
-    Random example_generator = new Random();
+    String selected;
+    String answer;
     ArrayList<Integer> integerRand = new ArrayList<>();
-    ArrayList<Character> answer = new ArrayList<>();
     ArrayList<String> example_set = new ArrayList<>();
+
     BleApplication bleApplication;
     Vibrator m_vibrator;
     SoundPool soundPool;
     TextToSpeech TTS;
 
     AlertDialog.Builder choiceBuilder;
-
-    Timer mTimer;
-    TimerTask mTask;
-
-    String selected;
 
     TextView title;
     TextView problem_num;
@@ -70,21 +67,12 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alphabet_test);
-        ButterKnife.bind(this);
-
-        title = (TextView)findViewById(R.id.title);
-        problem_num = (TextView)findViewById(R.id.problem_num);
-        _1 = (Button)findViewById(R.id._1);
-        _1.setOnClickListener(this);
-        _2 = (Button)findViewById(R.id._2);
-        _2.setOnClickListener(this);
-        _3 = (Button)findViewById(R.id._3);
-        _3.setOnClickListener(this);
-        _4 = (Button)findViewById(R.id._4);
-        _4.setOnClickListener(this);
+        viewBinder();
 
         m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        correct = soundPool.load(this, R.raw.correct, 1);
+        incorrect = soundPool.load(this, R.raw.incorrect, 1);
         TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -93,8 +81,14 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
                 }
             }
         });
-
-        problemSet();
+        Handler h = new Handler();
+        Runnable firstSetRunnable = new Runnable() {
+            @Override
+            public void run() {
+                problemSet();
+            }
+        };
+        h.postDelayed(firstSetRunnable,3000);
     }
 
     @Override
@@ -126,15 +120,16 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
     public void problemSet() {
         problem_num.setText("Problem" + " " + p_num);
         TTS.speak("Problem" + " " + p_num, TextToSpeech.QUEUE_FLUSH, null);
-
+        answer = "";
         for (int i = 0; i < 26; i++) {
             integerRand.add(i);
         }
         Collections.shuffle(integerRand);
         for (int j = 0; j < 4; j++) {
-            answer.add(alphabet[integerRand.get(j)]);
+            answer = answer + Character.toString(alphabet[integerRand.get(j)]);
         }
-        bleApplication.sendMessage(answer.toString());
+//        problem_num.setText(answer); 정답이 잘 생성되나 확인하기 위한 코드
+        bleApplication.sendMessage(answer.toLowerCase()); //닷워치에 정답 글자 모음을 보낸다.
 
         /*정답*/
         example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(1)] + "\n" + alphabet[integerRand.get(2)] + "\n" + alphabet[integerRand.get(3)]);
@@ -146,6 +141,7 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
         example_set.add(alphabet[integerRand.get(0)] + "\n" + alphabet[integerRand.get(23)] + "\n" + alphabet[integerRand.get(24)] + "\n" + alphabet[integerRand.get(25)]);
 
         Collections.shuffle(example_set);
+
         _1.setText(example_set.get(0));
         _2.setText(example_set.get(1));
         _3.setText(example_set.get(2));
@@ -158,65 +154,37 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
             correctSound();
             p_num++;
             if(p_num==11){
-                problem_num.setText("Complete");
+                //TODO 알림창 생성되지 않음.
                 getChoiceAlert("Test Result: "+wrongAnswer,"Press [Home] button to go back to home screend and press [Again] button to try once again  ","Home","Again");
             }
+            integerRand.clear();
+            example_set.clear();
             problemSet();
 
         }else {
             incorrectSound();
             wrongAnswer++;
-            mTask = new TimerTask(){
-                @Override
-                public void run(){
-                    switch(step){
-                        case 0:
-                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
-                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)]));
-                            break;
-                        case 1:
-                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
-                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)]));
-                            break;
-                        case 2:
-                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
-                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)])+Character.toString(alphabet[integerRand.get(2)]));
-                            break;
-                        case 3:
-                            TTS.speak(Character.toString(alphabet[integerRand.get(step)]), TextToSpeech.QUEUE_FLUSH, null);
-                            bleApplication.sendMessage(Character.toString(alphabet[integerRand.get(0)])+Character.toString(alphabet[integerRand.get(1)])+Character.toString(alphabet[integerRand.get(2)])
-                                    +Character.toString(alphabet[integerRand.get(3)]));
-                            break;
-                        case 4:
-                            problemSet();
-                            mTimer.cancel();
-                            mTask.cancel();
-                            break;
-                    }
-                }
-            };
-            mTimer = new Timer();
-            mTimer.schedule(mTask, 1000, 2000);
+            integerRand.clear();
+            example_set.clear();
+            problemSet();
         }
     }
 
     public void correctSound() {
-        correct = soundPool.load(this, correct, 0);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                soundPool.play(correct, 50, 50, 0, 0, 1);
+                streamId = soundPool.play(correct, 1, 1, 0, 0, 1);
             }
         });
     }
 
     public void incorrectSound() {
         m_vibrator.vibrate(1000);
-        incorrect = soundPool.load(this, incorrect, 1);
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                soundPool.play(incorrect, 50, 50, 0, 0, 1);
+                streamId = soundPool.play(incorrect, 1, 1, 0, 0, 1);
             }
         });
     }
@@ -244,6 +212,23 @@ public class AlphabetTestMultipleActivity extends Activity implements View.OnCli
                 });
 
         return choiceBuilder;
+    }
+
+    public void viewBinder(){
+        // 액티비티 내 타이틀 설정
+        title = (TextView)findViewById(R.id.title);
+        title.setText("TEST");
+
+        problem_num = (TextView)findViewById(R.id.problem_num);
+
+        _1 = (Button)findViewById(R.id._1);
+        _1.setOnClickListener(this);
+        _2 = (Button)findViewById(R.id._2);
+        _2.setOnClickListener(this);
+        _3 = (Button)findViewById(R.id._3);
+        _3.setOnClickListener(this);
+        _4 = (Button)findViewById(R.id._4);
+        _4.setOnClickListener(this);
     }
 
     @Override

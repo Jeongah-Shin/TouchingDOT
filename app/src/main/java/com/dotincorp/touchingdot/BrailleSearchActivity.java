@@ -12,7 +12,9 @@ import android.widget.EditText;
  */
 
 public class BrailleSearchActivity extends Activity implements View.OnClickListener {
-
+    /**
+     * 기존의 점자 배우기 기능
+     */
     EditText edit_text;
     Button send;
 
@@ -21,9 +23,7 @@ public class BrailleSearchActivity extends Activity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.braille_search);
-        edit_text = (EditText)findViewById(R.id.edit_text);
-        send = (Button)findViewById(R.id.send);
-        send.setOnClickListener(this);
+        viewBinder();
     }
 
     @Override
@@ -38,5 +38,10 @@ public class BrailleSearchActivity extends Activity implements View.OnClickListe
             bleApplication.sendMessage(text);
 
         }
+    }
+    public void viewBinder(){
+        edit_text = (EditText)findViewById(R.id.edit_text);
+        send = (Button)findViewById(R.id.send);
+        send.setOnClickListener(this);
     }
 }

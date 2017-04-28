@@ -2,8 +2,6 @@ package com.dotincorp.touchingdot;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +18,9 @@ import java.util.Locale;
 
 
 public class BrailleEducationActivity extends Activity implements View.OnClickListener{
+    /**
+     * 점형을 감별하는 연습을 하기 위한 Activity
+     */
     CheckBox br1;
     CheckBox br2;
     CheckBox br3;
@@ -58,7 +59,7 @@ public class BrailleEducationActivity extends Activity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.braille_grid);
-        viewBind();
+        viewBinder();
         TTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -193,31 +194,6 @@ public class BrailleEducationActivity extends Activity implements View.OnClickLi
         }
     }
 
-    public AlertDialog.Builder getChoiceAlert(String title, String content, String positive, String negative) {
-
-        choiceBuilder = new AlertDialog.Builder(this);
-        choiceBuilder.setTitle(title)        // 제목 설정
-                .setMessage(content)        // 콘텐츠 설정
-                .setCancelable(false)        // 뒤로 버튼 눌러도 취소되지 않음.
-                .setPositiveButton(positive, new DialogInterface.OnClickListener() {
-                    // 오른쪽 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        step = 0;
-                        brailleLearning();
-                    }
-                })
-                .setNegativeButton(negative, new DialogInterface.OnClickListener() {
-                    // 왼쪽 버튼 클릭시 설정
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Intent mainIntent = new Intent(getApplicationContext(),MainActivity.class);
-                        startActivity(mainIntent);
-                        finish();
-                    }
-                });
-
-        return choiceBuilder;
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -230,7 +206,7 @@ public class BrailleEducationActivity extends Activity implements View.OnClickLi
         super.onDestroy();
     }
 
-    protected void viewBind(){
+    protected void viewBinder(){
 
         br1 = (CheckBox)findViewById(R.id.br1);
         br1.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);

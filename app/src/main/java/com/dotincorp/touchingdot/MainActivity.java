@@ -16,9 +16,14 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity {
+    /**
+     * 3개의 탭을 보여주는 MainActivity
+     */
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    public static String type;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //@OnClick({R.id.tutorial,R.id.br_learning,R.id.br_selected,R.id.br_search})
     public void brIntentMoving(View v){
         switch (v.getId()){
             case R.id.tutorial:
@@ -98,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //@OnClick({R.id.ap_learning,R.id.ap_song,R.id.ap_test})
     public void apIntentMoving(View v){
         switch (v.getId()){
             case R.id.ap_learning:
@@ -116,19 +119,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //@OnClick({R.id.sc_number,R.id.sc_punc,R.id.sc_sign})
     public void scIntentMoving(View v){
         // punctuation,number,special_sign
         Intent specialLetterIntent = new Intent(getApplicationContext(), SpecialLetterSwitchingActivity.class);
         switch (v.getId()){
             case R.id.sc_number:
-                specialLetterIntent.putExtra("type","number");
+                type ="number";
                 break;
             case R.id.sc_punc:
-                specialLetterIntent.putExtra("type","punctuation");
+                type = "punctuation";
                 break;
             case R.id.sc_sign:
-                specialLetterIntent.putExtra("type","special_sign");
+                type = "special_sign";
                 break;
         }
         startActivity(specialLetterIntent);
