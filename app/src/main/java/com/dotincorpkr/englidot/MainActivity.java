@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
     }
     @OnClick({R.id.Alphabet, R.id.Basic_voca, R.id.Abbrev1, R.id.Abbrev1_utilization, R.id.Abbrev2, R.id.Abbrev2_utilization})
     public void categorizedMenu(View v){

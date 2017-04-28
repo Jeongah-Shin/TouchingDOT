@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/eng_song"
+        android:id="@+id/eng_song_image"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:weightSum="3">
+            <ImageButton
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:src="@drawable/play"
+                android:background="#00ff0000"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/pause"
+                android:background="#00ff0000"/>
+            <ImageButton
+                android:id="@+id/btn_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/stop"
+                android:background="#00ff0000"/>
+    </LinearLayout>
+
+    <SeekBar
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:max="10"
+        android:progress="0"
+        android:id="@+id/seekBar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:contentDescription="go to previous part"
+            android:id="@+id/previous_area"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/previous"
+            android:background="#00ff0000"/>
+
+        <ImageButton
+                android:contentDescription="go to next part"
+                android:id="@+id/next_area"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/next"
+                android:background="#00ff0000"/>
+    </LinearLayout>
+
+
+</LinearLayout>

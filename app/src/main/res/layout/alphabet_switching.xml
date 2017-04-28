@@ -4,33 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3">
-        <Button
-            android:id="@+id/cheating1"
-            android:background="@color/colorAccent"
-            android:text="치트키1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/cheating2"
-            android:background="@color/colorAccent"
-            android:text="치트키2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/cheating3"
-            android:background="@color/colorAccent"
-            android:text="치트키3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
     <TextView
         android:text=""
         android:textAlignment="center"

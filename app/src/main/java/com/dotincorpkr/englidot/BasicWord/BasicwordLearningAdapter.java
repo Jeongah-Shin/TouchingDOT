@@ -24,22 +24,22 @@ public class BasicwordLearningAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return Singleton.getInstance().getSingleton_List().get(position);
-    }
+            return Singleton.getInstance().getSingleton_List().get(position);
+        }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.basicword_learning_listview_item, parent, false);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.basicword_learning_listview_item, parent, false);
 
-            holder = new BasicwordLearningVIewHolder(convertView);
-            convertView.setTag(holder);
+                holder = new BasicwordLearningVIewHolder(convertView);
+                convertView.setTag(holder);
         } else {
             holder = (BasicwordLearningVIewHolder) convertView.getTag();
         }
